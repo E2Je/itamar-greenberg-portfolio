@@ -3,23 +3,15 @@ export const HERO = {
   title: 'Digital & AI Implementation Lead',
   subtitle: 'AI can do it',
   tagline: 'בינה מלאכותית וחשיבה יצירתית',
-  profilePhoto: '/lectures/IMG-20250225-WA0050.jpg',
+  profilePhoto: '/lectures/lecture3.jpg',
 };
-
-export const TERMINAL_LINES = [
-  '> טוען פרופיל...',
-  '> AI expertise   ████████ ✓',
-  '> יצירתיות       ████████ ✓',
-  '> חשיבה יצירתית  ████████ ✓',
-  '> מוכן.',
-];
 
 export const LINKS = [
   {
     id: 'linkedin',
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/in/itamar-greenberg',
-    icon: 'linkedin',
+    icon: 'external-link',
   },
   {
     id: 'email',
@@ -48,40 +40,44 @@ export const LINKS = [
 ];
 
 export const PHOTOS = [
-  '/lectures/IMG-20240716-WA0085.jpg',
-  '/lectures/IMG-20240925-WA0020.jpg',
-  '/lectures/IMG-20250225-WA0050.jpg',
-  '/lectures/IMG-20250402-WA0020.jpg',
-  '/lectures/WhatsApp Image 2026-03-16 at 11.03.52.jpeg',
-  '/lectures/WhatsApp Image 2026-03-16 at 11.03.55.jpeg',
-  '/lectures/WhatsApp Image 2026-03-16 at 11.03.57.jpeg',
+  '/lectures/lecture1.jpg',
+  '/lectures/lecture2.jpg',
+  '/lectures/lecture3.jpg',
+  '/lectures/lecture4.jpg',
+  '/lectures/lecture5.jpg',
+  '/lectures/lecture6.jpg',
+  '/lectures/lecture7.jpg',
 ];
 
 export const PLAYLISTS = [
   {
     id: 'pl1',
-    title: 'כלי AI לעבודה יומיומית',
-    description: 'סרטונים מעשיים על כלי AI שישדרגו את העבודה שלכם',
+    title: 'סרטי AI',
+    description: 'סרטים על בינה מלאכותית — מה שחייבים לראות',
     href: 'https://www.youtube.com/playlist?list=PLRSatIXe2cKgnWb0eUq_M9wl84BzPoo2M',
-    gradient: 'from-indigo-500 via-violet-500 to-purple-600',
+    gradient: 'from-indigo-500 via-violet-600 to-purple-700',
+    accent: '#8b5cf6',
+    count: 'פלייליסט',
+    featured: true,
   },
   {
     id: 'pl2',
-    title: 'הדרכות ChatGPT ובינה מלאכותית',
-    description: 'כל מה שצריך לדעת כדי לעבוד חכם עם AI',
+    title: 'הדרכות ושיעורים',
+    description: 'מדריכים מעשיים לעבודה חכמה עם AI',
     href: 'https://www.youtube.com/playlist?list=PLRSatIXe2cKhjOwiDldYvXyWQtfv8MdSl',
-    gradient: 'from-violet-500 via-fuchsia-500 to-pink-500',
+    gradient: 'from-cyan-500 via-sky-500 to-blue-600',
+    accent: '#06b6d4',
+    count: 'פלייליסט',
+    featured: false,
   },
   {
     id: 'pl3',
-    title: 'יצירת תמונות ותוכן עם AI',
-    description: 'כלי יצירה, פרומפטים ושימושים מתקדמים',
+    title: 'תכנים מקהילת AI can do it',
+    description: 'יצירתיות, חשיבה ויישום — מהקהילה שלנו',
     href: 'https://www.youtube.com/playlist?list=PLRSatIXe2cKiG1x8MvlVz-kayU-t4BlHl',
-    gradient: 'from-cyan-500 via-sky-500 to-indigo-500',
+    gradient: 'from-violet-500 via-fuchsia-500 to-rose-500',
+    accent: '#f43f5e',
+    count: 'פלייליסט',
+    featured: false,
   },
 ];
-
-export const SECTION_TITLES = {
-  carousel: 'מהרצאות שלי',
-  playlists: 'סרטוני YouTube',
-};
