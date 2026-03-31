@@ -1,9 +1,11 @@
+const base = import.meta.env.BASE_URL;
+
 export const HERO = {
   name: 'איתמר גרינברג',
   title: 'Digital & AI Implementation Lead',
   subtitle: 'AI can do it',
   tagline: 'בינה מלאכותית וחשיבה יצירתית',
-  profilePhoto: '/lectures/lecture3.jpg',
+  profilePhoto: `${base}lectures/lecture3.jpg`,
 };
 
 export const LINKS = [
@@ -40,13 +42,13 @@ export const LINKS = [
 ];
 
 export const PHOTOS = [
-  '/lectures/lecture1.jpg',
-  '/lectures/lecture2.jpg',
-  '/lectures/lecture3.jpg',
-  '/lectures/lecture4.jpg',
-  '/lectures/lecture5.jpg',
-  '/lectures/lecture6.jpg',
-  '/lectures/lecture7.jpg',
+  `${base}lectures/lecture1.jpg`,
+  `${base}lectures/lecture2.jpg`,
+  `${base}lectures/lecture3.jpg`,
+  `${base}lectures/lecture4.jpg`,
+  `${base}lectures/lecture5.jpg`,
+  `${base}lectures/lecture6.jpg`,
+  `${base}lectures/lecture7.jpg`,
 ];
 
 export const PLAYLISTS = [
