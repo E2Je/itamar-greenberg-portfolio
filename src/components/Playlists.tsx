@@ -8,7 +8,7 @@ const ACCENTS = [
   { from: '#6366f1', to: '#8b5cf6' },   // indigo → violet
 ];
 
-function PlaylistCard({ title, description, href, index }: typeof PLAYLISTS[0] & { index: number }) {
+function PlaylistCard({ title, href, index }: typeof PLAYLISTS[0] & { index: number }) {
   const [hovered, setHovered] = useState(false);
   const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -84,9 +84,6 @@ function PlaylistCard({ title, description, href, index }: typeof PLAYLISTS[0] &
           }}>
             {title}
           </h3>
-          <p style={{ color: '#6b7280', fontSize: '0.82rem', lineHeight: 1.55 }}>
-            {description}
-          </p>
         </div>
 
         <a
