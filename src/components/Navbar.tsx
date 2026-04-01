@@ -68,10 +68,26 @@ export default function Navbar({ isCreative, onToggleCreative }: NavbarProps) {
           </button>
 
           <a
+            href={PERSONAL.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 5,
+              background: 'rgba(10,102,194,0.15)', color: '#60a5fa', borderRadius: 999,
+              padding: '0.35rem 1rem', fontSize: '0.82rem', fontWeight: 700,
+              textDecoration: 'none', border: '1px solid rgba(10,102,194,0.3)',
+              transition: 'opacity 0.2s',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.opacity = '0.8')}
+            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+          <a
             href={PERSONAL.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            data-magnetic="CHAT"
             style={{
               background: '#25D366', color: 'white', borderRadius: 999,
               padding: '0.35rem 1rem', fontSize: '0.82rem', fontWeight: 700,
