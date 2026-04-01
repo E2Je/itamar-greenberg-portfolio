@@ -79,20 +79,6 @@ export default function About() {
               }} />
             </div>
 
-            {/* AI badge floating below photo */}
-            <div style={{
-              position: 'absolute', bottom: -16, left: '50%', transform: 'translateX(-50%)',
-              background: 'rgba(255,255,255,0.9)',
-              border: '1px solid rgba(99,102,241,0.2)',
-              borderRadius: 999,
-              padding: '4px 14px',
-              fontSize: '0.72rem', fontWeight: 700, color: '#6366f1',
-              backdropFilter: 'blur(8px)',
-              whiteSpace: 'nowrap',
-              boxShadow: '0 4px 14px rgba(99,102,241,0.15)',
-            }}>
-              ✦ AI & Digital Lead
-            </div>
           </div>
 
           {/* Text side */}
