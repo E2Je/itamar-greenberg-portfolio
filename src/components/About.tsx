@@ -1,13 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { PERSONAL } from '../data/content';
 
-const BIO_LINES = [
-  { emoji: '💍', text: 'נשוי באושר, אבא ואח' },
-  { emoji: '🏥', text: 'מרכז תחום דיגיטל בבית חולים' },
-  { emoji: '🧠', text: 'מרצה לבינה מלאכותית וחשיבה יצירתית' },
-  { emoji: '📚', text: 'אוהב ללמוד וללמד על דברים חדשים' },
-  { emoji: '🔧', text: 'אוהב לפתור בעיות' },
-];
+const BIO_TEXT = 'נשוי באושר, אבא, אח ומרכז תחום דיגיטל בבית חולים, מרצה לבינה מלאכותית וחשיבה יצירתית, אוהב ללמוד וללמד על דברים חדשים ואוהב לפתור בעיות.';
 
 export default function About() {
   const [visible, setVisible] = useState(false);
@@ -113,28 +107,18 @@ export default function About() {
               {PERSONAL.title}
             </p>
 
-            {/* Bio lines */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
-              {BIO_LINES.map((line, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: '0.75rem',
-                    padding: '0.55rem 1rem',
-                    background: 'rgba(255,255,255,0.65)',
-                    border: '1px solid rgba(99,102,241,0.1)',
-                    borderRadius: '0.75rem',
-                    backdropFilter: 'blur(8px)',
-                    opacity: visible ? 1 : 0,
-                    transform: visible ? 'translateX(0)' : 'translateX(20px)',
-                    transition: `opacity 0.5s ease ${0.15 + i * 0.09}s, transform 0.55s cubic-bezier(0.34,1.56,0.64,1) ${0.15 + i * 0.09}s`,
-                  }}
-                >
-                  <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{line.emoji}</span>
-                  <span style={{ color: '#374151', fontSize: '0.9rem', fontWeight: 500 }}>{line.text}</span>
-                </div>
-              ))}
-            </div>
+            {/* Bio text */}
+            <p style={{
+              color: '#4b5563',
+              fontSize: 'clamp(0.95rem,2vw,1.05rem)',
+              lineHeight: 1.85,
+              maxWidth: 440,
+              opacity: visible ? 1 : 0,
+              transform: visible ? 'translateY(0)' : 'translateY(14px)',
+              transition: 'opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s',
+            }}>
+              {BIO_TEXT}
+            </p>
           </div>
         </div>
       </div>
