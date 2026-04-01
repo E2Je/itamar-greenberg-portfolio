@@ -6,6 +6,7 @@ import Playlists from './components/Playlists';
 import Resources from './components/Resources';
 import PhotoCarousel from './components/PhotoCarousel';
 import MagneticCursor from './components/MagneticCursor';
+import About from './components/About';
 import { PERSONAL } from './data/content';
 import { Mail, MessageCircle } from 'lucide-react';
 
@@ -76,6 +77,9 @@ export default function App() {
         <Hero />
 
         <div style={{ height: 1, margin: '0 8%', background: 'linear-gradient(90deg,transparent,rgba(99,102,241,0.2),transparent)' }} />
+        <About />
+
+        <div style={{ height: 1, margin: '0 8%', background: 'linear-gradient(90deg,transparent,rgba(99,102,241,0.18),transparent)' }} />
         <Playlists />
         <Resources />
 

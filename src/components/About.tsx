@@ -1,0 +1,150 @@
+import { useRef, useState, useEffect } from 'react';
+import { PERSONAL } from '../data/content';
+
+const BIO_LINES = [
+  { emoji: '💍', text: 'נשוי באושר, אבא ואח' },
+  { emoji: '🏥', text: 'מרכז תחום דיגיטל בבית חולים' },
+  { emoji: '🧠', text: 'מרצה לבינה מלאכותית וחשיבה יצירתית' },
+  { emoji: '📚', text: 'אוהב ללמוד וללמד על דברים חדשים' },
+  { emoji: '🔧', text: 'אוהב לפתור בעיות' },
+];
+
+export default function About() {
+  const [visible, setVisible] = useState(false);
+  const [imgHovered, setImgHovered] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.12 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  const base = import.meta.env.BASE_URL;
+
+  return (
+    <section
+      id="about"
+      ref={ref}
+      className={`fade-section${visible ? ' visible' : ''}`}
+      style={{ padding: '5rem 1.5rem', position: 'relative', zIndex: 1 }}
+    >
+      <div style={{ maxWidth: 860, margin: '0 auto' }}>
+
+        {/* Title */}
+        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <h2 className="gradient-text" style={{ fontSize: 'clamp(1.4rem,4vw,2rem)', fontWeight: 900, display: 'inline-block' }}>
+            נעים להכיר
+          </h2>
+          <div style={{ height: 3, width: 50, background: 'linear-gradient(90deg,#6366f1,#06b6d4)', borderRadius: 999, margin: '0.5rem auto 0' }} />
+        </div>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', alignItems: 'center', justifyContent: 'center' }}>
+
+          {/* Photo side */}
+          <div
+            style={{ position: 'relative', flexShrink: 0 }}
+            onMouseEnter={() => setImgHovered(true)}
+            onMouseLeave={() => setImgHovered(false)}
+          >
+            {/* Rotating gradient ring */}
+            <div style={{
+              position: 'absolute', inset: -6,
+              borderRadius: '50%',
+              background: 'conic-gradient(from 0deg, #6366f1, #8b5cf6, #06b6d4, #6366f1)',
+              animation: 'spinRing 6s linear infinite',
+              opacity: imgHovered ? 1 : 0.55,
+              transition: 'opacity 0.4s ease',
+            }} />
+            {/* White gap */}
+            <div style={{
+              position: 'absolute', inset: -2,
+              borderRadius: '50%',
+              background: '#f9fafb',
+            }} />
+            {/* Photo */}
+            <div style={{
+              position: 'relative',
+              width: 220, height: 220,
+              borderRadius: '50%',
+              overflow: 'hidden',
+              transform: imgHovered ? 'scale(1.04)' : 'scale(1)',
+              transition: 'transform 0.45s cubic-bezier(0.34,1.56,0.64,1)',
+            }}>
+              <img
+                src={`${base}profile.jpg`}
+                alt="איתמר גרינברג"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+              />
+              {/* Subtle gradient overlay on hover */}
+              <div style={{
+                position: 'absolute', inset: 0,
+                background: 'linear-gradient(135deg, rgba(99,102,241,0.18) 0%, transparent 60%)',
+                opacity: imgHovered ? 1 : 0,
+                transition: 'opacity 0.4s ease',
+              }} />
+            </div>
+
+            {/* AI badge floating below photo */}
+            <div style={{
+              position: 'absolute', bottom: -16, left: '50%', transform: 'translateX(-50%)',
+              background: 'rgba(255,255,255,0.9)',
+              border: '1px solid rgba(99,102,241,0.2)',
+              borderRadius: 999,
+              padding: '4px 14px',
+              fontSize: '0.72rem', fontWeight: 700, color: '#6366f1',
+              backdropFilter: 'blur(8px)',
+              whiteSpace: 'nowrap',
+              boxShadow: '0 4px 14px rgba(99,102,241,0.15)',
+            }}>
+              ✦ AI & Digital Lead
+            </div>
+          </div>
+
+          {/* Text side */}
+          <div style={{ flex: 1, minWidth: 260 }}>
+            <h3 style={{
+              fontSize: 'clamp(1.3rem,3vw,1.7rem)', fontWeight: 900,
+              color: '#111827', marginBottom: '0.3rem',
+            }}>
+              {PERSONAL.name}
+            </h3>
+            <p style={{ color: '#6b7280', fontSize: '0.9rem', marginBottom: '1.6rem' }}>
+              {PERSONAL.title}
+            </p>
+
+            {/* Bio lines */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
+              {BIO_LINES.map((line, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '0.75rem',
+                    padding: '0.55rem 1rem',
+                    background: 'rgba(255,255,255,0.65)',
+                    border: '1px solid rgba(99,102,241,0.1)',
+                    borderRadius: '0.75rem',
+                    backdropFilter: 'blur(8px)',
+                    opacity: visible ? 1 : 0,
+                    transform: visible ? 'translateX(0)' : 'translateX(20px)',
+                    transition: `opacity 0.5s ease ${0.15 + i * 0.09}s, transform 0.55s cubic-bezier(0.34,1.56,0.64,1) ${0.15 + i * 0.09}s`,
+                  }}
+                >
+                  <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{line.emoji}</span>
+                  <span style={{ color: '#374151', fontSize: '0.9rem', fontWeight: 500 }}>{line.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes spinRing {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+      `}</style>
+    </section>
+  );
+}

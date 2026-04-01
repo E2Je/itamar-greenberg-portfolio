@@ -1,6 +1,7 @@
 import { PERSONAL } from '../data/content';
 
 const NAV_LINKS = [
+  { label: 'אודות', href: '#about' },
   { label: 'הדרכות', href: '#videos' },
   { label: 'תכנים', href: '#resources' },
   { label: 'גלריה', href: '#gallery' },
