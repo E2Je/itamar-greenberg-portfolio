@@ -1,138 +1,117 @@
 import { useRef, useState, useEffect } from 'react';
-import { Play, PlayCircle, ExternalLink } from 'lucide-react';
+import { ExternalLink, PlayCircle } from 'lucide-react';
 import { PLAYLISTS } from '../data/content';
 
-function GridLines({ id }: { id: string }) {
-  return (
-    <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.09, pointerEvents: 'none' }}>
-      <defs>
-        <pattern id={`grid-${id}`} width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.7" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill={`url(#grid-${id})`} />
-    </svg>
-  );
-}
+const ACCENTS = [
+  { from: '#06b6d4', to: '#3b82f6' },   // cyan → blue
+  { from: '#a855f7', to: '#ec4899' },   // violet → pink
+  { from: '#6366f1', to: '#8b5cf6' },   // indigo → violet
+];
 
-function PlaylistCard({ title, description, href, gradient, accent, index, featured }: typeof PLAYLISTS[0] & { index: number }) {
+function PlaylistCard({ title, description, href, index }: typeof PLAYLISTS[0] & { index: number }) {
   const [hovered, setHovered] = useState(false);
   const [visible, setVisible] = useState(false);
-  const ref = useRef<HTMLAnchorElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const accent = ACCENTS[index % ACCENTS.length];
+
+  // Extract playlist ID from href
+  const playlistId = href.split('list=')[1] ?? '';
+  const embedUrl = `https://www.youtube.com/embed/videoseries?list=${playlistId}&rel=0&modestbranding=1`;
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) setTimeout(() => setVisible(true), index * 90);
+      if (e.isIntersecting) setTimeout(() => setVisible(true), index * 120);
     }, { threshold: 0.1 });
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, [index]);
 
   return (
-    <a
+    <div
       ref={ref}
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
       style={{
-        display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-        textDecoration: 'none',
         borderRadius: '1.25rem',
         overflow: 'hidden',
-        position: 'relative',
-        cursor: 'pointer',
-        height: '100%',
-        minHeight: featured ? 300 : 190,
+        background: 'rgba(255,255,255,0.04)',
+        border: '1px solid rgba(255,255,255,0.09)',
+        backdropFilter: 'blur(12px)',
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(28px)',
-        transition: `opacity 0.5s ease ${index * 0.08}s, transform 0.5s ease ${index * 0.08}s, box-shadow 0.3s ease`,
+        transform: visible ? 'translateY(0)' : 'translateY(32px)',
+        transition: `opacity 0.55s ease ${index * 0.1}s, transform 0.55s ease ${index * 0.1}s, box-shadow 0.3s ease`,
         boxShadow: hovered
-          ? `0 24px 60px ${accent}55, 0 0 0 1.5px ${accent}77`
-          : `0 6px 24px rgba(0,0,0,0.25)`,
+          ? `0 20px 50px ${accent.from}44, 0 0 0 1px ${accent.from}33`
+          : '0 4px 20px rgba(0,0,0,0.3)',
+        display: 'flex', flexDirection: 'column',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Gradient bg */}
-      <div
-        className={`bg-gradient-to-br ${gradient}`}
-        style={{
-          position: 'absolute', inset: 0,
-          transform: hovered ? 'scale(1.05)' : 'scale(1)',
-          transition: 'transform 0.5s ease',
-        }}
-      />
-      <GridLines id={`pl-${index}`} />
+      {/* YouTube iframe */}
+      <div style={{ position: 'relative', paddingBottom: '56.25%', background: '#000' }}>
+        <iframe
+          src={embedUrl}
+          title={title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          loading="lazy"
+          style={{
+            position: 'absolute', inset: 0,
+            width: '100%', height: '100%',
+            border: 'none',
+          }}
+        />
+      </div>
 
-      {/* Glow */}
+      {/* Gradient accent bar */}
       <div style={{
-        position: 'absolute',
-        top: hovered ? '8%' : '18%', right: hovered ? '8%' : '15%',
-        width: featured ? 200 : 110, height: featured ? 200 : 110,
-        borderRadius: '50%',
-        background: 'rgba(255,255,255,0.1)',
-        filter: 'blur(45px)',
-        transition: 'all 0.5s ease',
-        pointerEvents: 'none',
+        height: 3,
+        background: `linear-gradient(90deg, ${accent.from}, ${accent.to})`,
+        transition: 'opacity 0.3s',
+        opacity: hovered ? 1 : 0.6,
       }} />
 
-      {/* Content */}
-      <div style={{
-        position: 'relative', zIndex: 1,
-        padding: featured ? 'clamp(1.6rem,3.5vw,2.4rem)' : '1.4rem',
-        display: 'flex', flexDirection: 'column',
-        justifyContent: 'space-between', height: '100%', gap: '0.8rem',
-      }}>
-        {/* Top */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 5,
-            background: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(8px)',
-            borderRadius: 999, padding: '3px 10px',
-            color: 'rgba(255,255,255,0.88)', fontSize: '0.68rem', fontWeight: 700,
-          }}>
-            <PlayCircle size={11} />
-            YouTube
-          </div>
-          <div style={{
-            width: hovered ? 52 : 44, height: hovered ? 52 : 44,
-            borderRadius: '50%',
-            background: hovered ? 'rgba(255,255,255,0.28)' : 'rgba(255,255,255,0.16)',
-            backdropFilter: 'blur(12px)',
-            border: `2px solid rgba(255,255,255,${hovered ? 0.65 : 0.35})`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            transition: 'all 0.3s ease',
-            boxShadow: hovered ? '0 0 30px rgba(255,255,255,0.3)' : 'none',
-            flexShrink: 0,
-          }}>
-            <Play size={hovered ? 20 : 16} fill="white" stroke="none" style={{ marginRight: -2, transition: 'all 0.3s ease' }} />
-          </div>
-        </div>
-
-        {/* Bottom */}
+      {/* Card info */}
+      <div style={{ padding: '1.2rem 1.4rem 1.4rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '0.8rem' }}>
         <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: '0.5rem' }}>
+            <PlayCircle size={14} style={{ color: accent.from, flexShrink: 0 }} />
+            <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.68rem', fontWeight: 600, letterSpacing: 1, textTransform: 'uppercase' }}>YouTube Playlist</span>
+          </div>
           <h3 style={{
-            color: 'white',
-            fontSize: featured ? 'clamp(1.3rem,3vw,1.9rem)' : 'clamp(1rem,2.5vw,1.2rem)',
-            fontWeight: 900, lineHeight: 1.2, marginBottom: '0.4rem',
-            textShadow: '0 2px 14px rgba(0,0,0,0.3)',
+            color: 'white', fontWeight: 800,
+            fontSize: 'clamp(1rem,2.5vw,1.15rem)',
+            lineHeight: 1.3, marginBottom: '0.4rem',
           }}>
             {title}
           </h3>
-          <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.82rem', lineHeight: 1.5 }}>
+          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem', lineHeight: 1.55 }}>
             {description}
           </p>
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 6, marginTop: '1rem',
-            opacity: hovered ? 1 : 0.65, transition: 'opacity 0.3s',
-          }}>
-            <span style={{ color: 'white', fontWeight: 700, fontSize: '0.85rem' }}>לצפייה</span>
-            <div style={{ height: 1.5, width: 28, background: 'rgba(255,255,255,0.5)', borderRadius: 999 }} />
-            <span style={{ color: 'white' }}>←</span>
-          </div>
         </div>
+
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            color: accent.from,
+            fontSize: '0.82rem', fontWeight: 700,
+            textDecoration: 'none',
+            border: `1px solid ${accent.from}44`,
+            borderRadius: 999, padding: '0.35rem 0.9rem',
+            alignSelf: 'flex-start',
+            transition: 'all 0.2s',
+            background: `${accent.from}10`,
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = `${accent.from}22`; e.currentTarget.style.borderColor = `${accent.from}88`; }}
+          onMouseLeave={e => { e.currentTarget.style.background = `${accent.from}10`; e.currentTarget.style.borderColor = `${accent.from}44`; }}
+        >
+          <ExternalLink size={12} />
+          פתח בYouTube
+        </a>
       </div>
-    </a>
+    </div>
   );
 }
 
@@ -140,12 +119,10 @@ export default function Playlists() {
   const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.06 });
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.05 });
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
-
-  const [featured, ...rest] = PLAYLISTS;
 
   return (
     <section
@@ -158,9 +135,22 @@ export default function Playlists() {
         background: 'linear-gradient(180deg, #0a0a12 0%, #0f0f1e 100%)',
       }}
     >
+      <style>{`
+        .playlists-grid {
+          display: grid;
+          gap: 1.25rem;
+          grid-template-columns: 1fr;
+        }
+        @media (min-width: 768px) {
+          .playlists-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+      `}</style>
+
       {/* Title row */}
       <div style={{
-        maxWidth: 960, margin: '0 auto',
+        maxWidth: 1000, margin: '0 auto',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         flexWrap: 'wrap', gap: '1rem',
         marginBottom: '2.5rem',
@@ -173,8 +163,7 @@ export default function Playlists() {
         </div>
         <a
           href="https://www.youtube.com/@itamargreenberg"
-          target="_blank"
-          rel="noopener noreferrer"
+          target="_blank" rel="noopener noreferrer"
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             color: '#a5b4fc', textDecoration: 'none',
@@ -191,33 +180,11 @@ export default function Playlists() {
         </a>
       </div>
 
-      {/* Bento grid */}
-      <div style={{ maxWidth: 960, margin: '0 auto' }}>
-        <style>{`
-          .bento-grid {
-            display: grid;
-            gap: 1rem;
-            grid-template-columns: 1fr;
-            grid-template-areas: "feat" "s1" "s2";
-          }
-          @media (min-width: 640px) {
-            .bento-grid {
-              grid-template-columns: 1fr 1.6fr;
-              grid-template-rows: 1fr 1fr;
-              grid-template-areas: "s1 feat" "s2 feat";
-              min-height: 380px;
-            }
-          }
-          .bento-feat { grid-area: feat; }
-          .bento-s1   { grid-area: s1; }
-          .bento-s2   { grid-area: s2; }
-        `}</style>
-        <div className="bento-grid">
-          <div className="bento-feat"><PlaylistCard {...featured} index={0} /></div>
-          {rest.map((p, i) => (
-            <div key={p.id} className={`bento-s${i + 1}`}>
-              <PlaylistCard {...p} index={i + 1} />
-            </div>
+      {/* 3-column grid */}
+      <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+        <div className="playlists-grid">
+          {PLAYLISTS.map((p, i) => (
+            <PlaylistCard key={p.id} {...p} index={i} />
           ))}
         </div>
       </div>
