@@ -32,8 +32,8 @@ function PlaylistCard({ title, description, href, index }: typeof PLAYLISTS[0] &
       style={{
         borderRadius: '1.25rem',
         overflow: 'hidden',
-        background: 'rgba(255,255,255,0.04)',
-        border: '1px solid rgba(255,255,255,0.09)',
+        background: 'rgba(255,255,255,0.7)',
+        border: '1px solid rgba(99,102,241,0.12)',
         backdropFilter: 'blur(12px)',
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0)' : 'translateY(32px)',
@@ -75,16 +75,16 @@ function PlaylistCard({ title, description, href, index }: typeof PLAYLISTS[0] &
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: '0.5rem' }}>
             <PlayCircle size={14} style={{ color: accent.from, flexShrink: 0 }} />
-            <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.68rem', fontWeight: 600, letterSpacing: 1, textTransform: 'uppercase' }}>YouTube Playlist</span>
+            <span style={{ color: '#9ca3af', fontSize: '0.68rem', fontWeight: 600, letterSpacing: 1, textTransform: 'uppercase' }}>YouTube Playlist</span>
           </div>
           <h3 style={{
-            color: 'white', fontWeight: 800,
+            color: '#111827', fontWeight: 800,
             fontSize: 'clamp(1rem,2.5vw,1.15rem)',
             lineHeight: 1.3, marginBottom: '0.4rem',
           }}>
             {title}
           </h3>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem', lineHeight: 1.55 }}>
+          <p style={{ color: '#6b7280', fontSize: '0.82rem', lineHeight: 1.55 }}>
             {description}
           </p>
         </div>
@@ -132,7 +132,7 @@ export default function Playlists() {
       style={{
         padding: '5rem 1.5rem',
         position: 'relative', zIndex: 1,
-        background: 'linear-gradient(180deg, #0a0a12 0%, #0f0f1e 100%)',
+        background: 'transparent',
       }}
     >
       <style>{`
@@ -156,7 +156,7 @@ export default function Playlists() {
         marginBottom: '2.5rem',
       }}>
         <div>
-          <h2 style={{ color: 'white', fontSize: 'clamp(1.5rem,4vw,2.2rem)', fontWeight: 900, margin: 0 }}>
+          <h2 style={{ color: '#111827', fontSize: 'clamp(1.5rem,4vw,2.2rem)', fontWeight: 900, margin: 0 }}>
             הדרכות ותכנים
           </h2>
           <div style={{ height: 3, width: 50, background: 'linear-gradient(90deg,#6366f1,#06b6d4)', borderRadius: 999, marginTop: 8 }} />
@@ -166,13 +166,13 @@ export default function Playlists() {
           target="_blank" rel="noopener noreferrer"
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
-            color: '#a5b4fc', textDecoration: 'none',
+            color: '#6366f1', textDecoration: 'none',
             fontSize: '0.88rem', fontWeight: 600,
-            border: '1px solid rgba(165,180,252,0.25)',
+            border: '1px solid rgba(99,102,241,0.25)',
             borderRadius: 999, padding: '6px 14px',
             transition: 'all 0.2s',
           }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(165,180,252,0.1)'; }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(99,102,241,0.08)'; }}
           onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
         >
           <ExternalLink size={13} />

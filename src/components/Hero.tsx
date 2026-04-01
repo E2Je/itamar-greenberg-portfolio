@@ -1,20 +1,7 @@
-import { useEffect, useState } from 'react';
-import { Mail, MessageCircle, Play, Brain, Building2, PlayCircle } from 'lucide-react';
+import { Mail, MessageCircle, Play } from 'lucide-react';
 import { PERSONAL } from '../data/content';
 
-const STATS = [
-  { icon: <Brain size={14} />, label: 'מוביל AI', sub: 'טרנספורמציה דיגיטלית' },
-  { icon: <Building2 size={14} />, label: 'הדסה ירושלים', sub: 'מרכז רפואי' },
-  { icon: <PlayCircle size={14} />, label: '3 פלייליסטים', sub: 'תכנים ביוטיוב' },
-];
-
 export default function Hero() {
-  const [statsVisible, setStatsVisible] = useState(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => setStatsVisible(true), 400);
-    return () => clearTimeout(t);
-  }, []);
 
   return (
     <section style={{
@@ -57,34 +44,6 @@ export default function Hero() {
       }}>
         {PERSONAL.subtitle} — {PERSONAL.tagline}
       </p>
-
-      {/* Animated stat chips */}
-      <div style={{
-        display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.6rem',
-        marginBottom: '2.5rem',
-      }}>
-        {STATS.map((s, i) => (
-          <div
-            key={i}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              background: 'rgba(255,255,255,0.72)',
-              border: '1px solid rgba(99,102,241,0.18)',
-              borderRadius: 999,
-              padding: '0.45rem 1rem',
-              backdropFilter: 'blur(10px)',
-              boxShadow: '0 2px 12px rgba(99,102,241,0.08)',
-              opacity: statsVisible ? 1 : 0,
-              transform: statsVisible ? 'translateY(0)' : 'translateY(12px)',
-              transition: `opacity 0.5s ease ${i * 0.12}s, transform 0.5s ease ${i * 0.12}s`,
-            }}
-          >
-            <span style={{ color: '#6366f1' }}>{s.icon}</span>
-            <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#374151' }}>{s.label}</span>
-            <span style={{ fontSize: '0.72rem', color: '#9ca3af', borderRight: '1px solid #e5e7eb', paddingRight: '0.5rem' }}>{s.sub}</span>
-          </div>
-        ))}
-      </div>
 
       {/* CTA buttons */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center' }}>
