@@ -37,7 +37,7 @@ function PlaylistCard({ title, href, index }: typeof PLAYLISTS[0] & { index: num
         backdropFilter: 'blur(12px)',
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0)' : 'translateY(32px)',
-        transition: `opacity 0.55s ease ${index * 0.1}s, transform 0.55s ease ${index * 0.1}s, box-shadow 0.3s ease`,
+        transition: `opacity 0.5s ease ${index * 0.12}s, transform 0.65s cubic-bezier(0.34,1.56,0.64,1) ${index * 0.12}s, box-shadow 0.3s ease`,
         boxShadow: hovered
           ? `0 20px 50px ${accent.from}44, 0 0 0 1px ${accent.from}33`
           : '0 4px 20px rgba(0,0,0,0.3)',
@@ -90,6 +90,7 @@ function PlaylistCard({ title, href, index }: typeof PLAYLISTS[0] & { index: num
           href={href}
           target="_blank"
           rel="noopener noreferrer"
+          data-magnetic="WATCH"
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             color: accent.from,

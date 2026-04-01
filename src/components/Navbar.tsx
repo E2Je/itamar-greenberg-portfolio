@@ -6,7 +6,12 @@ const NAV_LINKS = [
   { label: 'גלריה', href: '#gallery' },
 ];
 
-export default function Navbar() {
+interface NavbarProps {
+  isCreative: boolean;
+  onToggleCreative: () => void;
+}
+
+export default function Navbar({ isCreative, onToggleCreative }: NavbarProps) {
   return (
     <nav style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
@@ -17,52 +22,60 @@ export default function Navbar() {
     }}>
       <div style={{
         maxWidth: 1100, margin: '0 auto',
-        padding: '0 1.5rem',
-        height: 58,
+        padding: '0 1.5rem', height: 58,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         {/* Logo */}
         <a href="#" style={{ textDecoration: 'none' }}>
-          <span style={{ color: '#e5e7eb', fontWeight: 800, fontSize: '1rem' }}>
-            איתמר{' '}
-          </span>
-          <span className="gradient-text" style={{ fontWeight: 900, fontSize: '1rem' }}>
-            גרינברג
-          </span>
+          <span style={{ color: '#e5e7eb', fontWeight: 800, fontSize: '1rem' }}>איתמר{' '}</span>
+          <span className="gradient-text" style={{ fontWeight: 900, fontSize: '1rem' }}>גרינברג</span>
         </a>
 
         {/* Nav links */}
-        <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           {NAV_LINKS.map(l => (
             <a
               key={l.href}
               href={l.href}
-              style={{
-                color: 'rgba(209,213,219,0.85)',
-                textDecoration: 'none',
-                fontSize: '0.9rem',
-                fontWeight: 500,
-                transition: 'color 0.2s',
-              }}
+              style={{ color: 'rgba(209,213,219,0.85)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#a5b4fc')}
               onMouseLeave={e => (e.currentTarget.style.color = 'rgba(209,213,219,0.85)')}
             >
               {l.label}
             </a>
           ))}
+
+          {/* Energy toggle */}
+          <button
+            onClick={onToggleCreative}
+            data-magnetic={isCreative ? 'PRO' : 'ENERGY'}
+            title={isCreative ? 'Switch to Professional' : 'Switch to Creative'}
+            style={{
+              background: isCreative
+                ? 'linear-gradient(135deg,#6366f1,#8b5cf6)'
+                : 'rgba(99,102,241,0.12)',
+              border: '1px solid rgba(99,102,241,0.4)',
+              color: isCreative ? 'white' : '#a5b4fc',
+              borderRadius: 999,
+              padding: '0.3rem 0.85rem',
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              letterSpacing: 0.5,
+              transition: 'all 0.4s cubic-bezier(.34,1.56,.64,1)',
+            }}
+          >
+            {isCreative ? '✦ PRO' : '⚡ CREATIVE'}
+          </button>
+
           <a
             href={PERSONAL.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
+            data-magnetic="CHAT"
             style={{
-              background: '#25D366',
-              color: 'white',
-              borderRadius: 999,
-              padding: '0.35rem 1rem',
-              fontSize: '0.82rem',
-              fontWeight: 700,
-              textDecoration: 'none',
-              transition: 'opacity 0.2s',
+              background: '#25D366', color: 'white', borderRadius: 999,
+              padding: '0.35rem 1rem', fontSize: '0.82rem', fontWeight: 700,
+              textDecoration: 'none', transition: 'opacity 0.2s',
             }}
             onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
             onMouseLeave={e => (e.currentTarget.style.opacity = '1')}

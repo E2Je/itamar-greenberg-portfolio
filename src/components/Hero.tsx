@@ -1,7 +1,9 @@
 import { Mail, MessageCircle, Play } from 'lucide-react';
 import { PERSONAL } from '../data/content';
+import { useCipherText } from '../hooks/useCipherText';
 
 export default function Hero() {
+  const cipherName = useCipherText(PERSONAL.name, 300);
 
   return (
     <section style={{
@@ -22,7 +24,7 @@ export default function Hero() {
         marginBottom: '1rem',
         letterSpacing: '-2px',
       }}>
-        {PERSONAL.name}
+        <span style={{ fontVariantNumeric: 'tabular-nums', letterSpacing: '-1px' }}>{cipherName}</span>
       </h1>
 
       {/* Title */}
@@ -49,6 +51,7 @@ export default function Hero() {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center' }}>
         <a
           href={`mailto:${PERSONAL.email}`}
+          data-magnetic="MAIL"
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
             background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
@@ -68,6 +71,7 @@ export default function Hero() {
         <a
           href={PERSONAL.whatsapp}
           target="_blank" rel="noopener noreferrer"
+          data-magnetic="CHAT"
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
             background: '#25D366', color: 'white', borderRadius: 999,
