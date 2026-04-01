@@ -1,119 +1,132 @@
-import { useEffect, useState } from 'react';
-import { HERO } from '../data/content';
-
-function useTyping(text: string, speed = 42, startDelay = 500) {
-  const [displayed, setDisplayed] = useState('');
-  const [done, setDone] = useState(false);
-  useEffect(() => {
-    setDisplayed(''); setDone(false);
-    const t = setTimeout(() => {
-      let i = 0;
-      const iv = setInterval(() => {
-        i++;
-        setDisplayed(text.slice(0, i));
-        if (i >= text.length) { clearInterval(iv); setDone(true); }
-      }, speed);
-      return () => clearInterval(iv);
-    }, startDelay);
-    return () => clearTimeout(t);
-  }, [text, speed, startDelay]);
-  return { displayed, done };
-}
+import { Mail, MessageCircle, Play } from 'lucide-react';
+import { PERSONAL } from '../data/content';
 
 export default function Hero() {
-  const { displayed, done } = useTyping(HERO.title, 42, 600);
-  const [showSub, setShowSub] = useState(false);
-  useEffect(() => { if (done) setTimeout(() => setShowSub(true), 150); }, [done]);
-
   return (
-    <section
-      style={{
-        position: 'relative', zIndex: 1,
-        minHeight: '100svh',
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center',
-        padding: '7rem 1.5rem 4rem',
-        textAlign: 'center',
-      }}
-    >
-      {/* Profile photo */}
-      <div style={{ position: 'relative', marginBottom: '1.5rem' }}>
-        <div
-          className="pulse-ring"
-          style={{
-            width: 140, height: 140,
-            borderRadius: '50%',
-            overflow: 'hidden',
-            border: '4px solid white',
-          }}
-        >
-          <img
-            src={HERO.profilePhoto}
-            alt={HERO.name}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center' }}
-          />
-        </div>
-        <div
-          style={{
-            position: 'absolute', bottom: -4, left: -6,
-            background: 'linear-gradient(135deg,#6366f1,#06b6d4)',
-            borderRadius: 999, padding: '3px 10px',
-            color: 'white', fontSize: '0.65rem', fontWeight: 800,
-            letterSpacing: 0.3,
-          }}
-        >
-          AI ✦
-        </div>
+    <section style={{
+      position: 'relative', zIndex: 1,
+      minHeight: '100svh',
+      display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center',
+      padding: '7rem 1.5rem 5rem',
+      textAlign: 'center',
+    }}>
+      {/* AI badge */}
+      <div style={{
+        display: 'inline-flex', alignItems: 'center', gap: 6,
+        background: 'rgba(99,102,241,0.1)',
+        border: '1px solid rgba(99,102,241,0.3)',
+        borderRadius: 999,
+        padding: '5px 14px',
+        marginBottom: '1.5rem',
+        fontSize: '0.78rem',
+        fontWeight: 700,
+        color: '#6366f1',
+        letterSpacing: 0.5,
+      }}>
+        <span style={{ fontSize: '0.7rem' }}>✦</span>
+        AI Implementation Expert
       </div>
 
       {/* Name */}
-      <p style={{ color: '#9ca3af', fontWeight: 500, fontSize: '0.9rem', marginBottom: '0.4rem' }}>
-        {HERO.name}
-      </p>
-
-      {/* Typed title */}
-      <h1
-        className="gradient-text"
-        style={{
-          fontSize: 'clamp(1.7rem, 5.5vw, 3rem)',
-          fontWeight: 900,
-          lineHeight: 1.2,
-          marginBottom: '0.6rem',
-          minHeight: '1.3em',
-        }}
-      >
-        {displayed}
-        {!done && <span style={{ WebkitTextFillColor: '#6366f1' }} className="cursor-blink">|</span>}
+      <h1 style={{
+        fontSize: 'clamp(2.2rem, 7vw, 4.5rem)',
+        fontWeight: 900,
+        lineHeight: 1.1,
+        color: '#111827',
+        marginBottom: '1rem',
+        letterSpacing: '-1px',
+      }}>
+        {PERSONAL.name}
       </h1>
 
-      {/* Subtitle */}
-      <div style={{
-        opacity: showSub ? 1 : 0,
-        transform: showSub ? 'translateY(0)' : 'translateY(14px)',
-        transition: 'opacity 0.5s ease, transform 0.5s ease',
+      {/* Title */}
+      <p style={{
+        fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
+        color: '#6b7280',
+        fontWeight: 500,
+        marginBottom: '0.5rem',
+        maxWidth: 500,
       }}>
-        <p style={{ fontSize: 'clamp(1.3rem,3.5vw,1.8rem)', fontWeight: 800, color: '#4f46e5', marginBottom: '0.3rem' }}>
-          {HERO.subtitle}
-        </p>
-        <p style={{ color: '#6b7280', fontWeight: 500, fontSize: '1rem' }}>
-          {HERO.tagline}
-        </p>
-      </div>
+        {PERSONAL.title}
+      </p>
 
-      {/* Scroll cue */}
-      <div style={{
-        marginTop: '3rem',
-        opacity: showSub ? 1 : 0,
-        transition: 'opacity 0.6s ease 0.6s',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
+      {/* Tagline */}
+      <p style={{
+        fontSize: 'clamp(0.95rem, 2vw, 1.1rem)',
+        color: '#9ca3af',
+        marginBottom: '2.5rem',
       }}>
-        <span style={{ color: '#9ca3af', fontSize: '0.75rem', fontWeight: 500 }}>גללו למטה</span>
-        <div style={{
-          width: 1.5, height: 36,
-          background: 'linear-gradient(to bottom, #6366f1, transparent)',
-          borderRadius: 999,
-          animation: 'fadeUp 1.5s ease-in-out infinite alternate',
-        }} />
+        {PERSONAL.subtitle} — {PERSONAL.tagline}
+      </p>
+
+      {/* CTA buttons */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center' }}>
+        <a
+          href={`mailto:${PERSONAL.email}`}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+            color: 'white',
+            borderRadius: 999,
+            padding: '0.75rem 1.6rem',
+            fontWeight: 700,
+            fontSize: '0.95rem',
+            textDecoration: 'none',
+            boxShadow: '0 8px 24px rgba(99,102,241,0.35)',
+            transition: 'transform 0.2s, box-shadow 0.2s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(99,102,241,0.45)'; }}
+          onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(99,102,241,0.35)'; }}
+        >
+          <Mail size={16} />
+          שלח מייל
+        </a>
+
+        <a
+          href={PERSONAL.whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: '#25D366',
+            color: 'white',
+            borderRadius: 999,
+            padding: '0.75rem 1.6rem',
+            fontWeight: 700,
+            fontSize: '0.95rem',
+            textDecoration: 'none',
+            boxShadow: '0 8px 24px rgba(37,211,102,0.35)',
+            transition: 'transform 0.2s, box-shadow 0.2s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+          onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; }}
+        >
+          <MessageCircle size={16} />
+          וואטסאפ
+        </a>
+
+        <a
+          href="#videos"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: 'white',
+            color: '#374151',
+            borderRadius: 999,
+            padding: '0.75rem 1.6rem',
+            fontWeight: 700,
+            fontSize: '0.95rem',
+            textDecoration: 'none',
+            border: '1.5px solid #e5e7eb',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.06)',
+            transition: 'transform 0.2s, border-color 0.2s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = '#6366f1'; }}
+          onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = '#e5e7eb'; }}
+        >
+          <Play size={15} fill="#6366f1" stroke="none" />
+          צפייה בתכנים
+        </a>
       </div>
     </section>
   );

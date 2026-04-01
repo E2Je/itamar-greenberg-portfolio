@@ -1,45 +1,15 @@
 const base = import.meta.env.BASE_URL;
 
-export const HERO = {
+export const PERSONAL = {
   name: 'איתמר גרינברג',
-  title: 'Digital & AI Implementation Lead',
+  title: 'מוביל טרנספורמציה דיגיטלית והטמעות AI',
   subtitle: 'AI can do it',
   tagline: 'בינה מלאכותית וחשיבה יצירתית',
-  profilePhoto: `${base}lectures/lecture3.jpg`,
+  email: 'aicandoit5@gmail.com',
+  phone: '055-6692412',
+  whatsapp: 'https://wa.me/972556692412',
+  linkedin: 'https://www.linkedin.com/in/itamar-greenberg',
 };
-
-export const LINKS = [
-  {
-    id: 'linkedin',
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/itamar-greenberg',
-    icon: 'external-link',
-  },
-  {
-    id: 'email',
-    label: 'מייל',
-    href: 'mailto:aicandoit5@gmail.com',
-    icon: 'mail',
-  },
-  {
-    id: 'whatsapp',
-    label: 'WhatsApp',
-    href: 'https://wa.me/972556692412',
-    icon: 'message-circle',
-  },
-  {
-    id: 'canva',
-    label: 'קהילת AI can do it',
-    href: 'https://aicandoit.my.canva.site/itamar',
-    icon: 'users',
-  },
-  {
-    id: 'drive',
-    label: 'תוכן כתוב',
-    href: 'https://drive.google.com/drive/u/4/folders/142-EwnppoiEkbfT1k6E0i_l1ps-iqO2p',
-    icon: 'file-text',
-  },
-];
 
 export const PHOTOS = [
   `${base}lectures/lecture1.jpg`,
@@ -54,32 +24,44 @@ export const PHOTOS = [
 export const PLAYLISTS = [
   {
     id: 'pl1',
-    title: 'סרטי AI',
-    description: 'סרטים על בינה מלאכותית — מה שחייבים לראות',
-    href: 'https://www.youtube.com/playlist?list=PLRSatIXe2cKgnWb0eUq_M9wl84BzPoo2M',
-    gradient: 'from-indigo-500 via-violet-600 to-purple-700',
-    accent: '#8b5cf6',
-    count: 'פלייליסט',
-    featured: true,
-  },
-  {
-    id: 'pl2',
-    title: 'הדרכות ושיעורים',
+    title: 'שיעורים והדרכות',
     description: 'מדריכים מעשיים לעבודה חכמה עם AI',
     href: 'https://www.youtube.com/playlist?list=PLRSatIXe2cKhjOwiDldYvXyWQtfv8MdSl',
     gradient: 'from-cyan-500 via-sky-500 to-blue-600',
     accent: '#06b6d4',
-    count: 'פלייליסט',
+    featured: false,
+  },
+  {
+    id: 'pl2',
+    title: 'תכנים מקהילת AI can do it',
+    description: 'יצירתיות, חשיבה ויישום מהקהילה שלנו',
+    href: 'https://www.youtube.com/playlist?list=PLRSatIXe2cKiG1x8MvlVz-kayU-t4BlHl',
+    gradient: 'from-violet-500 via-fuchsia-500 to-rose-500',
+    accent: '#a855f7',
     featured: false,
   },
   {
     id: 'pl3',
-    title: 'תכנים מקהילת AI can do it',
-    description: 'יצירתיות, חשיבה ויישום — מהקהילה שלנו',
-    href: 'https://www.youtube.com/playlist?list=PLRSatIXe2cKiG1x8MvlVz-kayU-t4BlHl',
-    gradient: 'from-violet-500 via-fuchsia-500 to-rose-500',
-    accent: '#f43f5e',
-    count: 'פלייליסט',
-    featured: false,
+    title: 'יצירת תוכן וסרטונים',
+    description: 'סרטי AI — מה שחייבים לראות',
+    href: 'https://www.youtube.com/playlist?list=PLRSatIXe2cKgnWb0eUq_M9wl84BzPoo2M',
+    gradient: 'from-indigo-500 via-violet-600 to-purple-700',
+    accent: '#8b5cf6',
+    featured: true,
+  },
+];
+
+export const RESOURCES = [
+  {
+    id: 'drive',
+    title: 'מאגר תכנים כתובים ומדריכים',
+    href: 'https://drive.google.com/drive/u/4/folders/142-EwnppoiEkbfT1k6E0i_l1ps-iqO2p',
+    icon: 'file-text',
+  },
+  {
+    id: 'canva',
+    title: 'תכנים מקהילת AI CAN DO IT',
+    href: 'https://aicandoit.my.canva.site/itamar',
+    icon: 'sparkles',
   },
 ];

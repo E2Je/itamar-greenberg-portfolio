@@ -1,57 +1,74 @@
-import { ExternalLink, Mail, MessageCircle, Users, FileText } from 'lucide-react';
-import { LINKS } from '../data/content';
+import { PERSONAL } from '../data/content';
 
-const ICONS: Record<string, React.ReactNode> = {
-  'external-link': <ExternalLink size={14} />,
-  mail:            <Mail size={14} />,
-  'message-circle':<MessageCircle size={14} />,
-  users:           <Users size={14} />,
-  'file-text':     <FileText size={14} />,
-};
+const NAV_LINKS = [
+  { label: 'הדרכות', href: '#videos' },
+  { label: 'תכנים', href: '#resources' },
+  { label: 'גלריה', href: '#gallery' },
+];
 
 export default function Navbar() {
   return (
-    <nav
-      style={{
-        position: 'fixed', top: 0, left: 0, right: 0,
-        zIndex: 50,
-        background: 'rgba(249,250,251,0.80)',
-        backdropFilter: 'blur(18px)',
-        WebkitBackdropFilter: 'blur(18px)',
-        borderBottom: '1px solid rgba(99,102,241,0.12)',
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1100, margin: '0 auto',
-          padding: '0.6rem 1.5rem',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          flexWrap: 'wrap', gap: '0.5rem',
-        }}
-      >
+    <nav style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+      background: 'rgba(10,10,18,0.92)',
+      backdropFilter: 'blur(18px)',
+      WebkitBackdropFilter: 'blur(18px)',
+      borderBottom: '1px solid rgba(255,255,255,0.07)',
+    }}>
+      <div style={{
+        maxWidth: 1100, margin: '0 auto',
+        padding: '0 1.5rem',
+        height: 58,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      }}>
         {/* Logo */}
-        <span
-          className="gradient-text font-black"
-          style={{ fontSize: '1.05rem', letterSpacing: '-0.5px' }}
-        >
-          AI can do it ✦
-        </span>
+        <a href="#" style={{ textDecoration: 'none' }}>
+          <span style={{ color: '#e5e7eb', fontWeight: 800, fontSize: '1rem' }}>
+            איתמר{' '}
+          </span>
+          <span className="gradient-text" style={{ fontWeight: 900, fontSize: '1rem' }}>
+            גרינברג
+          </span>
+        </a>
 
-        {/* Links */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-          {LINKS.map(link => (
+        {/* Nav links */}
+        <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+          {NAV_LINKS.map(l => (
             <a
-              key={link.id}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-btn"
-              style={{ fontSize: '0.78rem', padding: '0.35rem 0.85rem' }}
+              key={l.href}
+              href={l.href}
+              style={{
+                color: 'rgba(209,213,219,0.85)',
+                textDecoration: 'none',
+                fontSize: '0.9rem',
+                fontWeight: 500,
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#a5b4fc')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(209,213,219,0.85)')}
             >
-              {ICONS[link.icon]}
-              {link.label}
+              {l.label}
             </a>
           ))}
+          <a
+            href={PERSONAL.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              background: '#25D366',
+              color: 'white',
+              borderRadius: 999,
+              padding: '0.35rem 1rem',
+              fontSize: '0.82rem',
+              fontWeight: 700,
+              textDecoration: 'none',
+              transition: 'opacity 0.2s',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+          >
+            WhatsApp
+          </a>
         </div>
       </div>
     </nav>
