@@ -4,7 +4,6 @@ export const PERSONAL = {
   name: 'איתמר גרינברג',
   title: 'מוביל טרנספורמציה דיגיטלית והטמעות AI',
   subtitle: 'AI can do it',
-  tagline: 'בינה מלאכותית וחשיבה יצירתית',
   email: 'aicandoit5@gmail.com',
   phone: '055-6692412',
   whatsapp: 'https://wa.me/972556692412',
