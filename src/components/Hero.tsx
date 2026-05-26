@@ -2,6 +2,8 @@ import { Mail, MessageCircle, Play } from 'lucide-react';
 import { PERSONAL } from '../data/content';
 import { useCipherText } from '../hooks/useCipherText';
 
+const base = import.meta.env.BASE_URL;
+
 export default function Hero() {
   const cipherName = useCipherText(PERSONAL.name, 300);
 
@@ -38,14 +40,22 @@ export default function Hero() {
         {PERSONAL.title}
       </p>
 
-      {/* Tagline */}
-      <p style={{
-        fontSize: 'clamp(0.95rem, 2vw, 1.1rem)',
-        color: '#9ca3af',
-        marginBottom: '2.5rem',
-      }}>
-        {PERSONAL.subtitle} — {PERSONAL.tagline}
-      </p>
+      {/* Hero video */}
+      <div style={{ marginBottom: '2.5rem', marginTop: '0.5rem', width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <video
+          src={`${base}hero-video.mp4`}
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{
+            width: 'min(90vw, 520px)',
+            borderRadius: '1.25rem',
+            boxShadow: '0 12px 40px rgba(99,102,241,0.18)',
+            display: 'block',
+          }}
+        />
+      </div>
 
       {/* CTA buttons */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center' }}>
