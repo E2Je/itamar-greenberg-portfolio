@@ -43,7 +43,7 @@ export default function Hero() {
       {/* Hero video */}
       <div style={{ marginBottom: '2.5rem', marginTop: '0.5rem', width: '100%', display: 'flex', justifyContent: 'center' }}>
         <video
-          src={`${base}EKG_pulse_morphs_into_AI_202605271412.mp4`}
+          src={`${base}hero-video.mp4`}
           autoPlay
           loop
           muted
