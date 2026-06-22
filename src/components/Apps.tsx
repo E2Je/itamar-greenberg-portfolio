@@ -2,6 +2,12 @@ import { ExternalLink } from 'lucide-react';
 
 const APPS = [
   {
+    title: 'אפליקציה לתרגול החייאה',
+    url: 'https://tzofan-2222.vercel.app/',
+    color: '#10b981',
+    shadow: 'rgba(16,185,129,0.28)',
+  },
+  {
     title: 'אפליקציה לניהול ידע במלר"ד',
     url: 'https://nehmad-bamalrad.vercel.app/',
     color: '#6366f1',
@@ -14,12 +20,6 @@ const APPS = [
     shadow: 'rgba(14,165,233,0.28)',
   },
   {
-    title: 'אפליקציה לתרגול החייאה',
-    url: 'https://tzofan-2222.vercel.app/',
-    color: '#10b981',
-    shadow: 'rgba(16,185,129,0.28)',
-  },
-  {
     title: 'אפליקציה לתרגול צוות בהחייאה',
     url: 'https://tzofenaistudio.vercel.app/',
     color: '#f59e0b',
@@ -30,7 +30,21 @@ const APPS = [
 export default function Apps() {
   return (
     <section id="apps" style={{ padding: '5rem 1.5rem', position: 'relative', zIndex: 1, direction: 'rtl' }}>
-      <div style={{ maxWidth: 860, margin: '0 auto' }}>
+      <style>{`
+        .apps-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1rem;
+        }
+        @media (max-width: 700px) {
+          .apps-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 400px) {
+          .apps-grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <h2 style={{
           fontSize: 'clamp(1.6rem,4vw,2.4rem)',
           fontWeight: 900,
@@ -44,11 +58,7 @@ export default function Apps() {
           כלים דיגיטליים לצוותים רפואיים
         </p>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-          gap: '1.1rem',
-        }}>
+        <div className="apps-grid">
           {APPS.map((app) => (
             <a
               key={app.url}
@@ -62,11 +72,11 @@ export default function Apps() {
                 background: 'white',
                 border: '1.5px solid #e5e7eb',
                 borderRadius: '1.1rem',
-                padding: '1.4rem 1.3rem',
+                padding: '1.3rem 1.1rem',
                 textDecoration: 'none',
                 boxShadow: `0 4px 18px ${app.shadow}`,
                 transition: 'transform 0.2s, box-shadow 0.2s, border-color 0.2s',
-                minHeight: 130,
+                minHeight: 120,
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.transform = 'translateY(-4px)';
@@ -80,10 +90,10 @@ export default function Apps() {
               }}
             >
               <p style={{
-                fontSize: '1rem',
+                fontSize: '0.92rem',
                 fontWeight: 700,
                 color: '#111827',
-                lineHeight: 1.4,
+                lineHeight: 1.45,
                 marginBottom: '1rem',
               }}>
                 {app.title}
@@ -91,12 +101,12 @@ export default function Apps() {
               <span style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 5,
-                fontSize: '0.82rem',
+                gap: 4,
+                fontSize: '0.78rem',
                 fontWeight: 600,
                 color: app.color,
               }}>
-                פתח אפליקציה <ExternalLink size={13} />
+                פתח אפליקציה <ExternalLink size={12} />
               </span>
             </a>
           ))}
