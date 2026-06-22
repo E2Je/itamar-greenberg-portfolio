@@ -1,29 +1,34 @@
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, HeartPulse, BookOpen, ClipboardList, Users } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
-const APPS = [
+const APPS: { title: string; url: string; color: string; shadow: string; Icon: LucideIcon }[] = [
   {
     title: 'אפליקציה לתרגול החייאה',
     url: 'https://tzofan-2222.vercel.app/',
     color: '#10b981',
     shadow: 'rgba(16,185,129,0.28)',
+    Icon: HeartPulse,
   },
   {
     title: 'אפליקציה לניהול ידע במלר"ד',
     url: 'https://nehmad-bamalrad.vercel.app/',
     color: '#6366f1',
     shadow: 'rgba(99,102,241,0.28)',
+    Icon: BookOpen,
   },
   {
     title: "אפליקציה לצ'קליסט דיגיטלי להכנה לאינטובציה",
     url: 'https://e2je.github.io/intubation-/',
     color: '#0ea5e9',
     shadow: 'rgba(14,165,233,0.28)',
+    Icon: ClipboardList,
   },
   {
     title: 'אפליקציה לתרגול צוות בהחייאה',
     url: 'https://tzofenaistudio.vercel.app/',
     color: '#f59e0b',
     shadow: 'rgba(245,158,11,0.28)',
+    Icon: Users,
   },
 ];
 
@@ -59,7 +64,7 @@ export default function Apps() {
         </p>
 
         <div className="apps-grid">
-          {APPS.map((app) => (
+          {APPS.map(({ Icon, ...app }) => (
             <a
               key={app.url}
               href={app.url}
@@ -89,6 +94,14 @@ export default function Apps() {
                 e.currentTarget.style.borderColor = '#e5e7eb';
               }}
             >
+              <div style={{
+                width: 40, height: 40, borderRadius: '0.7rem',
+                background: `${app.color}18`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                marginBottom: '0.75rem',
+              }}>
+                <Icon size={20} color={app.color} strokeWidth={2} />
+              </div>
               <p style={{
                 fontSize: '0.92rem',
                 fontWeight: 700,
