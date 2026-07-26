@@ -1,106 +1,152 @@
+import { useEffect, useState } from 'react';
+import { Menu, X, MessageCircle } from 'lucide-react';
 import { PERSONAL } from '../data/content';
 
 const NAV_LINKS = [
   { label: 'אודות', href: '#about' },
+  { label: 'פרויקטים', href: '#projects' },
   { label: 'הדרכות', href: '#videos' },
   { label: 'תכנים', href: '#resources' },
   { label: 'גלריה', href: '#gallery' },
 ];
 
-interface NavbarProps {
-  isCreative: boolean;
-  onToggleCreative: () => void;
-}
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-export default function Navbar({ isCreative, onToggleCreative }: NavbarProps) {
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // סגירת התפריט ב-Esc
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setMenuOpen(false);
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
+
   return (
-    <nav style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-      background: 'rgba(10,10,18,0.92)',
-      backdropFilter: 'blur(18px)',
-      WebkitBackdropFilter: 'blur(18px)',
-      borderBottom: '1px solid rgba(255,255,255,0.07)',
-    }}>
-      <div style={{
-        maxWidth: 1100, margin: '0 auto',
-        padding: '0 1.5rem', height: 58,
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      }}>
-        {/* Logo */}
-        <a href="#" style={{ textDecoration: 'none' }}>
-          <span style={{ color: '#e5e7eb', fontWeight: 800, fontSize: '1rem' }}>איתמר{' '}</span>
-          <span className="gradient-text" style={{ fontWeight: 900, fontSize: '1rem' }}>גרינברג</span>
-        </a>
+    <header className={`site-header${scrolled ? ' scrolled' : ''}`}>
+      <style>{`
+        .site-header { position: fixed; top: 0; inset-inline: 0; z-index: 150; }
+        /* הרקע המטושטש יושב על שכבה נפרדת עם pointer-events:none -
+           מונע את הבאג ב-iOS Safari שבו backdrop-filter על מיכל בולע נגיעות בכפתור שבתוכו */
+        .site-header::before {
+          content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+          opacity: 0; transition: opacity .3s;
+          background: rgba(255, 252, 248, .88);
+          backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+          box-shadow: 0 2px 18px rgba(34, 56, 78, .07);
+        }
+        .site-header.scrolled::before { opacity: 1; }
 
-        {/* Nav links */}
-        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-          {NAV_LINKS.map(l => (
+        .header-inner {
+          position: relative; display: flex; align-items: center;
+          justify-content: space-between; gap: 12px;
+          height: var(--header-h);
+        }
+        .brand { font-family: var(--ff-title); font-size: 17px; color: var(--ink); }
+        .brand span { color: var(--accent-deep); }
+
+        .main-nav { display: none; gap: 2px; align-items: center; }
+        .main-nav a {
+          font-family: var(--ff-title); font-size: 14.5px; color: var(--ink);
+          padding: 7px 12px; border-radius: 10px; transition: color .2s, background .2s;
+        }
+        .main-nav a:hover { color: var(--accent-deep); background: var(--accent-soft); }
+
+        .nav-toggle {
+          position: relative; z-index: 1;
+          display: flex; align-items: center; justify-content: center;
+          width: 40px; height: 40px; border-radius: 12px;
+          background: var(--card); border: 1px solid var(--line); color: var(--ink);
+        }
+        .nav-cta { display: none; }
+
+        .mobile-panel {
+          position: absolute; top: calc(var(--header-h) - 4px); inset-inline: clamp(18px, 5vw, 32px);
+          background: var(--card); border: 1px solid var(--line);
+          border-radius: var(--radius-sm); box-shadow: var(--shadow-float);
+          padding: 10px; display: flex; flex-direction: column;
+          animation: modalIn .25s var(--ease-spring);
+        }
+        .mobile-panel a {
+          font-family: var(--ff-title); font-size: 16px; color: var(--ink);
+          padding: 11px 14px; border-radius: 12px;
+        }
+        .mobile-panel a:hover { background: var(--surface-alt); }
+        .mobile-panel .panel-cta {
+          margin-top: 6px; border-top: 1px solid var(--line-soft); padding-top: 10px;
+        }
+
+        @media (min-width: 900px) {
+          .main-nav { display: flex; }
+          .nav-toggle { display: none; }
+          .nav-cta { display: inline-flex; }
+        }
+      `}</style>
+
+      <div className="wrap">
+        <div className="header-inner">
+          <a href="#top" className="brand">
+            איתמר <span>גרינברג</span>
+          </a>
+
+          <nav className="main-nav" aria-label="ניווט ראשי">
+            {NAV_LINKS.map(l => (
+              <a key={l.href} href={l.href}>
+                {l.label}
+              </a>
+            ))}
+          </nav>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <a
-              key={l.href}
-              href={l.href}
-              style={{ color: 'rgba(209,213,219,0.85)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s' }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#a5b4fc')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(209,213,219,0.85)')}
+              href={PERSONAL.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pill pill-sm pill-green nav-cta"
             >
+              <MessageCircle size={14} />
+              דברו איתי
+            </a>
+
+            <button
+              className="nav-toggle"
+              onClick={() => setMenuOpen(o => !o)}
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? 'סגירת תפריט' : 'פתיחת תפריט'}
+            >
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {menuOpen && (
+        <div className="mobile-panel">
+          {NAV_LINKS.map(l => (
+            <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)}>
               {l.label}
             </a>
           ))}
-
-          {/* Energy toggle */}
-          <button
-            onClick={onToggleCreative}
-            data-magnetic={isCreative ? 'PRO' : 'ENERGY'}
-            title={isCreative ? 'Switch to Professional' : 'Switch to Creative'}
-            style={{
-              background: isCreative
-                ? 'linear-gradient(135deg,#6366f1,#8b5cf6)'
-                : 'rgba(99,102,241,0.12)',
-              border: '1px solid rgba(99,102,241,0.4)',
-              color: isCreative ? 'white' : '#a5b4fc',
-              borderRadius: 999,
-              padding: '0.3rem 0.85rem',
-              fontSize: '0.75rem',
-              fontWeight: 700,
-              letterSpacing: 0.5,
-              transition: 'all 0.4s cubic-bezier(.34,1.56,.64,1)',
-            }}
-          >
-            {isCreative ? '✦ PRO' : '⚡ CREATIVE'}
-          </button>
-
-          <a
-            href={PERSONAL.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 5,
-              background: 'rgba(10,102,194,0.15)', color: '#60a5fa', borderRadius: 999,
-              padding: '0.35rem 1rem', fontSize: '0.82rem', fontWeight: 700,
-              textDecoration: 'none', border: '1px solid rgba(10,102,194,0.3)',
-              transition: 'opacity 0.2s',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '0.8')}
-            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            LinkedIn
-          </a>
-          <a
-            href={PERSONAL.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              background: '#25D366', color: 'white', borderRadius: 999,
-              padding: '0.35rem 1rem', fontSize: '0.82rem', fontWeight: 700,
-              textDecoration: 'none', transition: 'opacity 0.2s',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-          >
-            WhatsApp
-          </a>
+          <div className="panel-cta">
+            <a
+              href={PERSONAL.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
+              style={{ color: 'var(--green-deep)' }}
+            >
+              דברו איתי בוואטסאפ
+            </a>
+          </div>
         </div>
-      </div>
-    </nav>
+      )}
+    </header>
   );
 }

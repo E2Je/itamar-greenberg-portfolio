@@ -1,143 +1,92 @@
 import { Mail, MessageCircle, Play } from 'lucide-react';
 import { PERSONAL } from '../data/content';
-import { useCipherText } from '../hooks/useCipherText';
-
-const base = import.meta.env.BASE_URL;
+import HeroSequence from './HeroSequence';
 
 export default function Hero() {
-  const cipherName = useCipherText(PERSONAL.name, 300);
-
   return (
-    <section style={{
-      position: 'relative', zIndex: 1,
-      minHeight: '100svh',
-      display: 'flex', flexDirection: 'column',
-      alignItems: 'center', justifyContent: 'center',
-      padding: '7rem 1.5rem 5rem',
-      textAlign: 'center',
-    }}>
-
-      {/* Name */}
-      <h1 style={{
-        fontSize: 'clamp(2.4rem, 8vw, 5rem)',
-        fontWeight: 900,
-        lineHeight: 1.05,
-        color: '#111827',
-        marginBottom: '1rem',
-        letterSpacing: '-2px',
-      }}>
-        <span style={{ fontVariantNumeric: 'tabular-nums', letterSpacing: '-1px' }}>{cipherName}</span>
-      </h1>
-
-      {/* Title */}
-      <p style={{
-        fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
-        color: '#6b7280',
-        fontWeight: 500,
-        marginBottom: '0.5rem',
-        maxWidth: 500,
-      }}>
-        {PERSONAL.title}
-      </p>
-
-      {/* Hero video */}
-      <div style={{ marginBottom: '2.5rem', marginTop: '0.5rem', width: '100%', display: 'flex', justifyContent: 'center' }}>
-        <video
-          src={`${base}hero-video.mp4`}
-          autoPlay
-          loop
-          muted
-          playsInline
-          style={{
-            width: 'min(90vw, 520px)',
-            borderRadius: '1.25rem',
-            boxShadow: '0 12px 40px rgba(99,102,241,0.18)',
-            display: 'block',
-          }}
-        />
-      </div>
-
-      {/* CTA buttons */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center' }}>
-        <a
-          href={`mailto:${PERSONAL.email}`}
-          data-magnetic="MAIL"
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-            color: 'white', borderRadius: 999,
-            padding: '0.75rem 1.6rem', fontWeight: 700, fontSize: '0.95rem',
-            textDecoration: 'none',
-            boxShadow: '0 8px 24px rgba(99,102,241,0.35)',
-            transition: 'transform 0.2s, box-shadow 0.2s',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(99,102,241,0.45)'; }}
-          onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(99,102,241,0.35)'; }}
-        >
-          <Mail size={16} />
-          שלח מייל
-        </a>
-
-        <a
-          href={PERSONAL.whatsapp}
-          target="_blank" rel="noopener noreferrer"
-          data-magnetic="CHAT"
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            background: '#25D366', color: 'white', borderRadius: 999,
-            padding: '0.75rem 1.6rem', fontWeight: 700, fontSize: '0.95rem',
-            textDecoration: 'none',
-            boxShadow: '0 8px 24px rgba(37,211,102,0.35)',
-            transition: 'transform 0.2s, box-shadow 0.2s',
-            animation: 'waPulse 3s ease-in-out infinite',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
-          onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; }}
-        >
-          <MessageCircle size={16} />
-          וואטסאפ
-        </a>
-
-        <a
-          href="#videos"
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            background: 'white', color: '#374151', borderRadius: 999,
-            padding: '0.75rem 1.6rem', fontWeight: 700, fontSize: '0.95rem',
-            textDecoration: 'none',
-            border: '1.5px solid #e5e7eb',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.06)',
-            transition: 'transform 0.2s, border-color 0.2s',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = '#6366f1'; }}
-          onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = '#e5e7eb'; }}
-        >
-          <Play size={15} fill="#6366f1" stroke="none" />
-          צפייה בתכנים
-        </a>
-      </div>
-
-      {/* Scroll cue */}
-      <div style={{
-        position: 'absolute', bottom: '2rem', left: '50%', transform: 'translateX(-50%)',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
-        opacity: 0.35,
-        animation: 'scrollBounce 2s ease-in-out infinite',
-      }}>
-        <div style={{ width: 1.5, height: 28, background: 'linear-gradient(to bottom,transparent,#6366f1)', borderRadius: 999 }} />
-        <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#6366f1' }} />
-      </div>
-
+    <section id="top" className="hero">
       <style>{`
-        @keyframes waPulse {
-          0%, 100% { box-shadow: 0 8px 24px rgba(37,211,102,0.35); }
-          50% { box-shadow: 0 8px 32px rgba(37,211,102,0.6); }
+        .hero {
+          position: relative;
+          min-height: 100svh;
+          display: flex; align-items: center;
+          padding: calc(var(--header-h) + 28px) 0 64px;
+          background: linear-gradient(180deg, var(--cream) 0%, var(--surface-cool) 100%);
+          overflow: hidden;
         }
-        @keyframes scrollBounce {
-          0%, 100% { transform: translateX(-50%) translateY(0); }
-          50% { transform: translateX(-50%) translateY(6px); }
+        .hero::before {
+          content: ""; position: absolute; inset-inline-end: -140px; top: -120px;
+          width: 460px; height: 460px; border-radius: 50%;
+          background: radial-gradient(circle, rgba(59,125,196,.10), transparent 68%);
+          pointer-events: none;
         }
+        .hero::after {
+          content: ""; position: absolute; inset-inline-start: -120px; bottom: -160px;
+          width: 420px; height: 420px; border-radius: 50%;
+          background: radial-gradient(circle, rgba(232,163,61,.10), transparent 68%);
+          pointer-events: none;
+        }
+        .hero-inner {
+          position: relative;
+          display: flex; flex-direction: column; align-items: center;
+          text-align: center;
+          gap: clamp(18px, 3vw, 28px);
+        }
+        .hero-name { font-size: clamp(38px, 9vw, 68px); line-height: 1.08; }
+        .hero-role {
+          font-family: var(--ff-title);
+          font-size: clamp(16px, 3.4vw, 21px);
+          color: var(--accent-deep);
+          margin: 0;
+        }
+        .hero-cta { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .scroll-cue {
+          position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+          width: 26px; height: 42px; border: 2px solid var(--accent);
+          border-radius: 14px; opacity: .4;
+        }
+        .scroll-cue span {
+          position: absolute; top: 8px; left: 50%; margin-inline-start: -2px;
+          width: 4px; height: 8px; background: var(--accent);
+          border-radius: 2px; animation: cue 1.6s infinite;
+        }
+        @keyframes cue { 0% { opacity: 1; top: 8px; } 100% { opacity: 0; top: 22px; } }
       `}</style>
+
+      <div className="wrap">
+        <div className="hero-inner">
+          <div className="reveal">
+            <h1 className="hero-name">{PERSONAL.name}</h1>
+            <p className="hero-role">{PERSONAL.title}</p>
+          </div>
+
+          <HeroSequence />
+
+          <div className="hero-cta reveal">
+            <a href={`mailto:${PERSONAL.email}`} className="pill pill-accent">
+              <Mail size={16} />
+              שלח מייל
+            </a>
+            <a
+              href={PERSONAL.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pill pill-green"
+            >
+              <MessageCircle size={16} />
+              וואטסאפ
+            </a>
+            <a href="#videos" className="pill pill-ghost">
+              <Play size={15} />
+              צפייה בתכנים
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="scroll-cue" aria-hidden="true">
+        <span />
+      </div>
     </section>
   );
 }
