@@ -1,3 +1,5 @@
+import { LQIP } from './lqip';
+
 const base = import.meta.env.BASE_URL;
 
 export const PERSONAL = {
@@ -10,15 +12,11 @@ export const PERSONAL = {
   linkedin: 'https://www.linkedin.com/in/itamar-greenberg',
 };
 
-export const PHOTOS = [
-  `${base}lectures/lecture1.webp`,
-  `${base}lectures/lecture2.webp`,
-  `${base}lectures/lecture3.webp`,
-  `${base}lectures/lecture4.webp`,
-  `${base}lectures/lecture5.webp`,
-  `${base}lectures/lecture6.webp`,
-  `${base}lectures/lecture7.webp`,
-];
+/** תמונות הגלריה. blur הוא תצוגת 24px מוטמעת שמוצגת מיד, לפני שהקובץ המלא ירד. */
+export const PHOTOS = [1, 2, 3, 4, 5, 6, 7].map(n => ({
+  src: `${base}lectures/lecture${n}.webp`,
+  blur: LQIP[`lecture${n}`],
+}));
 
 export const PLAYLISTS = [
   {

@@ -7,6 +7,20 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
+## תמונות
+
+התמונות ב-`public/` נדחסות מראש. אחרי הוספה או החלפה של תמונת הרצאה
+או תמונת פרופיל צריך להריץ:
+
+```bash
+pip install Pillow
+python3 scripts/optimize-images.py
+```
+
+הסקריפט מקטין ודוחס את הקבצים ומייצר מחדש את `src/data/lqip.ts` -
+תצוגות זעירות מוטמעות שמשמשות כרקע המטושטש בגלריה עד שהתמונה
+המלאה יורדת. יש לבצע commit לפלט של הסקריפט יחד עם התמונות.
+
 ## React Compiler
 
 The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).

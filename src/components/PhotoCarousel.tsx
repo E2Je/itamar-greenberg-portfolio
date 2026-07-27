@@ -4,10 +4,32 @@ import { PHOTOS } from '../data/content';
 
 const AUTO_MS = 5000;
 
+/** מחזיר קובץ למטמון הדפדפן ברקע, כדי שהמעבר אליו יהיה מיידי. */
+function preload(src: string) {
+  const img = new Image();
+  img.decoding = 'async';
+  img.src = src;
+}
+
 export default function PhotoCarousel() {
   const [current, setCurrent] = useState(0);
   const [fading, setFading] = useState(false);
+  /** אילו תמונות כבר סיימו לרדת - עד אז מוצג רק הרקע המטושטש. */
+  const [ready, setReady] = useState<Record<number, boolean>>({});
+  /** הגלריה חיה רק כשהיא קרובה למסך - אין טעם להחליף ולמשוך תמונות ברקע. */
+  const [active, setActive] = useState(false);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const stage = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = stage.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => setActive(entry.isIntersecting), {
+      rootMargin: '400px',
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const goTo = useCallback((next: number) => {
     setFading(true);
@@ -23,11 +45,32 @@ export default function PhotoCarousel() {
   }, []);
 
   useEffect(() => {
+    if (!active) return;
     restartAuto();
     return () => { if (timer.current) clearInterval(timer.current); };
-  }, [restartAuto]);
+  }, [active, restartAuto]);
+
+  /* מושכים מראש את השקופית הבאה והקודמת. בלי זה כל מעבר מתחיל
+     הורדה חדשה של עשרות קילובייטים והתמונה "נתקעת" לרגע. */
+  useEffect(() => {
+    if (!active) return;
+    const neighbours = [current + 1, current - 1].map(i => (i + PHOTOS.length) % PHOTOS.length);
+    const id = window.setTimeout(() => neighbours.forEach(i => preload(PHOTOS[i].src)), 150);
+    return () => window.clearTimeout(id);
+  }, [active, current]);
+
+  const markCurrentReady = useCallback(() => {
+    setReady(r => (r[current] ? r : { ...r, [current]: true }));
+  }, [current]);
+
+  /* תמונה שכבר במטמון עלולה לסיים לרדת לפני ש-onLoad מחובר,
+     ולכן בודקים גם את complete ברגע שהאלמנט נכנס ל-DOM. */
+  const markReady = useCallback((el: HTMLImageElement | null) => {
+    if (el?.complete) markCurrentReady();
+  }, [markCurrentReady]);
 
   const step = (delta: number) => { goTo(current + delta); restartAuto(); };
+  const photo = PHOTOS[current];
 
   return (
     <section id="gallery" className="sec">
@@ -93,13 +136,17 @@ export default function PhotoCarousel() {
         </div>
 
         <div className="reveal" style={{ maxWidth: 860, margin: '0 auto', position: 'relative' }}>
-          <div className="gallery-stage">
-            <img className="gallery-blur" src={PHOTOS[current]} alt="" aria-hidden="true" />
+          <div className="gallery-stage" ref={stage}>
+            <img className="gallery-blur" src={photo.blur} alt="" aria-hidden="true" />
             <img
+              ref={markReady}
               className="gallery-photo"
-              src={PHOTOS[current]}
+              src={photo.src}
               alt={`הרצאה ${current + 1}`}
-              style={{ opacity: fading ? 0 : 1 }}
+              loading="lazy"
+              decoding="async"
+              onLoad={markCurrentReady}
+              style={{ opacity: fading || !ready[current] ? 0 : 1 }}
             />
             <span className="gallery-counter">
               {current + 1} / {PHOTOS.length}

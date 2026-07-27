@@ -67,7 +67,7 @@ export default function Showcase() {
         </div>
 
         <div className="showcase-grid reveal-group">
-          {PROJECTS.map((p, i) => (
+          {PROJECTS.map(p => (
             <button
               key={p.id}
               className="project-card"
@@ -78,7 +78,9 @@ export default function Showcase() {
                 className="shot-well"
                 style={{ background: `linear-gradient(180deg, ${p.accent}1A, ${p.accent}05)` }}
               >
-                <PhoneShot id={p.id} title={p.title} height={330} eager={i < 3} />
+                {/* כל המוקאפים lazy - הגריד יושב מתחת לקיפול, וטעינה
+                    מוקדמת שלהם רק גזלה רוחב פס מהווידאו שבראש העמוד. */}
+                <PhoneShot id={p.id} title={p.title} height={330} />
               </div>
 
               <div className="card-body">

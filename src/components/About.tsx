@@ -62,7 +62,14 @@ export default function About() {
       <div className="wrap narrow">
         <div className="about-grid">
           <div className="about-photo reveal-pop">
-            <img src={`${base}profile.webp`} alt={PERSONAL.name} width={560} height={560} />
+            <img
+              src={`${base}profile.webp`}
+              alt={PERSONAL.name}
+              width={480}
+              height={480}
+              loading="lazy"
+              decoding="async"
+            />
           </div>
 
           <div className="about-text reveal">

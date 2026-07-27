@@ -21,6 +21,7 @@ export default function PhoneShot({ id, title, height, eager }: Props) {
       width={560}
       height={1155}
       loading={eager ? 'eager' : 'lazy'}
+      fetchPriority={eager ? 'high' : 'auto'}
       decoding="async"
       style={{ height, width: 'auto' }}
     />
