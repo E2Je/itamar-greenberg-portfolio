@@ -76,6 +76,12 @@ html, body {
   overflow-x: hidden;
 }
 
+/* overflow-x:hidden הופך את body למיכל גלילה ושובר position:sticky.
+   clip חוסם גלישה אופקית בלי ליצור מיכל גלילה, ולכן ההירו הנעוץ עובד. */
+@supports (overflow-x: clip) {
+  html, body { overflow-x: clip; }
+}
+
 #root { width: 100%; min-height: 100svh; }
 
 img, video { max-width: 100%; height: auto; display: block; }
@@ -278,6 +284,27 @@ html.reveal-ready .reveal-pop { opacity: 0; transform: scale(.85); }
 html.reveal-ready .reveal-pop.in {
   opacity: 1; transform: scale(1);
   transition: opacity .5s ease, transform .7s var(--ease-spring);
+}
+
+/* כניסה מהצד - לתמונה ולטקסט שיושבים זה מול זה */
+html.reveal-ready .reveal-side { opacity: 0; transform: translateX(-28px); }
+html.reveal-ready .reveal-side.in {
+  opacity: 1; transform: none;
+  transition: opacity .65s ease, transform .75s var(--ease-spring);
+}
+
+/* קו שנמתח - לקישוט מתחת לכותרות סקשן */
+.rule {
+  height: 3px; width: 54px; border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold), var(--accent));
+  transform-origin: right;
+  margin-top: 12px;
+}
+.sec-head.center .rule { margin-inline: auto; }
+html.reveal-ready .reveal .rule { transform: scaleX(0); }
+html.reveal-ready .reveal.in .rule {
+  transform: scaleX(1);
+  transition: transform .7s var(--ease-spring) .15s;
 }
 
 /* ============================================================

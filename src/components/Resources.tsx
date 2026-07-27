@@ -1,4 +1,4 @@
-import { FileText, Sparkles, ArrowLeft } from 'lucide-react';
+import { FileText, Sparkles, ArrowLeft, BookOpen } from 'lucide-react';
 import { RESOURCES } from '../data/content';
 
 const ICON_MAP: Record<string, React.ReactNode> = {
@@ -13,7 +13,12 @@ export default function Resources() {
     <section id="resources" className="sec sec-alt">
       <div className="wrap narrow">
         <div className="sec-head center reveal">
+          <span className="eyebrow">
+            <BookOpen size={13} style={{ verticalAlign: '-2px', marginInlineEnd: 5 }} />
+            מאמרים
+          </span>
           <h2>תכנים כתובים ומאמרים</h2>
+          <div className="rule" />
         </div>
 
         <div className="reveal-group" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>

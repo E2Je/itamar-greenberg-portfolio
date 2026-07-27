@@ -11,13 +11,13 @@ export const PERSONAL = {
 };
 
 export const PHOTOS = [
-  `${base}lectures/lecture1.jpg`,
-  `${base}lectures/lecture2.jpg`,
-  `${base}lectures/lecture3.jpg`,
-  `${base}lectures/lecture4.jpg`,
-  `${base}lectures/lecture5.jpg`,
-  `${base}lectures/lecture6.jpg`,
-  `${base}lectures/lecture7.jpg`,
+  `${base}lectures/lecture1.webp`,
+  `${base}lectures/lecture2.webp`,
+  `${base}lectures/lecture3.webp`,
+  `${base}lectures/lecture4.webp`,
+  `${base}lectures/lecture5.webp`,
+  `${base}lectures/lecture6.webp`,
+  `${base}lectures/lecture7.webp`,
 ];
 
 export const PLAYLISTS = [

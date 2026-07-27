@@ -1,4 +1,4 @@
-import { ExternalLink, PlayCircle } from 'lucide-react';
+import { ExternalLink, PlayCircle, MonitorPlay } from 'lucide-react';
 import { PLAYLISTS } from '../data/content';
 
 const YOUTUBE_CHANNEL = 'https://www.youtube.com/@itamargreenberg';
@@ -18,7 +18,12 @@ export default function Playlists() {
       <div className="wrap">
         <div className="sec-head pl-head reveal">
           <div>
+            <span className="eyebrow">
+              <MonitorPlay size={13} style={{ verticalAlign: '-2px', marginInlineEnd: 5 }} />
+              וידאו
+            </span>
             <h2>הדרכות ותכנים</h2>
+            <div className="rule" />
           </div>
           <a
             href={YOUTUBE_CHANNEL}

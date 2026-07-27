@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { LayoutGrid } from 'lucide-react';
 import { PROJECTS, type Project } from '../data/projects';
 import PhoneShot from './PhoneShot';
 import ProjectModal from './ProjectModal';
@@ -56,8 +57,13 @@ export default function Showcase() {
 
       <div className="wrap">
         <div className="sec-head reveal">
+          <span className="eyebrow">
+            <LayoutGrid size={13} style={{ verticalAlign: '-2px', marginInlineEnd: 5 }} />
+            פרויקטים
+          </span>
           <h2>אפליקציות שפיתחתי</h2>
-          <p>כלים דיגיטליים לצוותים רפואיים</p>
+          <div className="rule" />
+          <p style={{ marginTop: 14 }}>כלים דיגיטליים לצוותים רפואיים</p>
         </div>
 
         <div className="showcase-grid reveal-group">
