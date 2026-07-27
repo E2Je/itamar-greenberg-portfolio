@@ -76,12 +76,6 @@ html, body {
   overflow-x: hidden;
 }
 
-/* overflow-x:hidden הופך את body למיכל גלילה ושובר position:sticky.
-   clip חוסם גלישה אופקית בלי ליצור מיכל גלילה, ולכן ההירו הנעוץ עובד. */
-@supports (overflow-x: clip) {
-  html, body { overflow-x: clip; }
-}
-
 #root { width: 100%; min-height: 100svh; }
 
 img, video { max-width: 100%; height: auto; display: block; }
