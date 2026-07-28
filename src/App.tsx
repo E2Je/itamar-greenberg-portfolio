@@ -72,7 +72,7 @@ export default function App() {
               marginBottom: 28,
             }}
           >
-            <a href={`mailto:${PERSONAL.email}`} className="pill pill-sm pill-ghost-dark">
+            <a href={`mailto:${PERSONAL.email}`} className="pill pill-sm pill-ghost-dark pill-icon-left">
               <Mail size={14} />
               <span className="ltr">{PERSONAL.email}</span>
             </a>
@@ -80,7 +80,7 @@ export default function App() {
               href={PERSONAL.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="pill pill-sm pill-ghost-dark"
+              className="pill pill-sm pill-ghost-dark pill-icon-left"
             >
               <MessageCircle size={14} />
               <span className="ltr">{PERSONAL.phone}</span>
@@ -89,7 +89,7 @@ export default function App() {
               href={PERSONAL.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="pill pill-sm pill-ghost-dark"
+              className="pill pill-sm pill-ghost-dark pill-icon-left"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />

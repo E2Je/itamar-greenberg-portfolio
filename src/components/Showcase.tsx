@@ -61,7 +61,7 @@ export default function Showcase() {
             <LayoutGrid size={13} style={{ verticalAlign: '-2px', marginInlineEnd: 5 }} />
             פרויקטים
           </span>
-          <h2>אפליקציות שפיתחתי</h2>
+          <h2>כמה דוגמאות לאפליקציות שפיתחתי</h2>
           <div className="rule" />
           <p style={{ marginTop: 14 }}>כלים דיגיטליים לצוותים רפואיים</p>
         </div>
