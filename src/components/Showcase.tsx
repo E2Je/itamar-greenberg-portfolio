@@ -63,7 +63,6 @@ export default function Showcase() {
           </span>
           <h2>כמה דוגמאות לאפליקציות שפיתחתי</h2>
           <div className="rule" />
-          <p style={{ marginTop: 14 }}>כלים דיגיטליים לצוותים רפואיים</p>
         </div>
 
         <div className="showcase-grid reveal-group">
