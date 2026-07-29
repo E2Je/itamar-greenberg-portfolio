@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { Mail, MessageCircle } from 'lucide-react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -35,6 +36,7 @@ export default function App() {
       <a href="#main" className="skip-link">
         דילוג לתוכן
       </a>
+      <Analytics />
       <ScrollProgress />
       <Navbar />
 
