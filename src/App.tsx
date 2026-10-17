@@ -44,7 +44,8 @@ export default function App() {
           .foot-word .ld { transition-duration: .45s !important; }
           .foot-swoosh { width: min(100%, 900px); height: clamp(18px, 3vw, 40px); margin: 6px 0 0 auto; }
           .foot-sub { font-size: clamp(18px, 2vw, 24px); color: var(--blue-ink); margin: 14px 0 clamp(28px, 4vw, 44px); }
-          .foot-links { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: clamp(48px, 7vw, 88px); }
+          .foot-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; margin-bottom: clamp(48px, 7vw, 88px); }
+          @media (max-width: 599px) { .foot-links { flex-direction: column; align-items: flex-end; } }
           .foot-copy { color: var(--muted); font-size: 14px; margin: 0; }
         `}</style>
         <div className="wrap">
@@ -58,11 +59,11 @@ export default function App() {
           <p className="foot-sub">בינה מלאכותית וחשיבה יצירתית</p>
 
           <div className="foot-links">
-            <a href={`mailto:${PERSONAL.email}`} className="lbtn"><MailIcon /><span className="ltr">{PERSONAL.email}</span></a>
-            <a href={PERSONAL.whatsapp} target="_blank" rel="noopener noreferrer" className="lbtn"><WhatsAppIcon /><span className="ltr">{PERSONAL.phone}</span></a>
+            <a href={`mailto:${PERSONAL.email}`} className="lbtn"><span className="ltr">{PERSONAL.email}</span><MailIcon /></a>
+            <a href={PERSONAL.whatsapp} target="_blank" rel="noopener noreferrer" className="lbtn"><span className="ltr">{PERSONAL.phone}</span><WhatsAppIcon /></a>
             <a href={PERSONAL.linkedin} target="_blank" rel="noopener noreferrer" className="lbtn">
-              <LinkedInIcon />
               LinkedIn
+              <LinkedInIcon />
             </a>
           </div>
 
