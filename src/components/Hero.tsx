@@ -1,112 +1,67 @@
-import { Mail, MessageCircle, Play } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 import { PERSONAL } from '../data/content';
+import { MailIcon, PlayIcon, WhatsAppIcon } from './LineIcons';
+import { SIGN_D, SIGNATURE_PATHS, startHeroMorph } from './heroMorph';
 
-const base = import.meta.env.BASE_URL;
-
+/**
+ * המסך הראשון: טקסט מימין, ומשמאל קו כחול אחד שמשנה צורה (heroMorph.ts):
+ * אק"ג -> שיחה -> רעיון -> מחשב -> תהליך -> רובוט -> לייק -> AI can do it.
+ * בלי JS או בתנועה מופחתת: עומדת החתימה הגמורה.
+ */
 export default function Hero() {
+  const svgRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    return startHeroMorph(svg);
+  }, []);
+
   return (
-    <section id="top" className="hero">
-      <style>{`
-        .hero {
-          position: relative;
-          min-height: 100svh;
-          display: flex; align-items: center;
-          padding: calc(var(--header-h) + 24px) 0 64px;
-          overflow: hidden;
-          background: linear-gradient(180deg, var(--cream) 0%, var(--surface-cool) 100%);
-        }
-        .hero::before {
-          content: ""; position: absolute; inset-inline-end: -140px; top: -120px;
-          width: 460px; height: 460px; border-radius: 50%;
-          background: radial-gradient(circle, rgba(59,125,196,.10), transparent 68%);
-          pointer-events: none;
-        }
-        .hero::after {
-          content: ""; position: absolute; inset-inline-start: -120px; bottom: -160px;
-          width: 420px; height: 420px; border-radius: 50%;
-          background: radial-gradient(circle, rgba(232,163,61,.10), transparent 68%);
-          pointer-events: none;
-        }
-        .hero-inner {
-          position: relative;
-          display: flex; flex-direction: column; align-items: center;
-          text-align: center;
-          gap: clamp(14px, 2.6vw, 24px);
-        }
-        .hero-name { font-size: clamp(34px, 8vw, 62px); line-height: 1.08; }
-        .hero-role {
-          font-family: var(--ff-title);
-          font-size: clamp(15px, 3.2vw, 20px);
-          color: var(--accent-deep);
-          margin: 0;
-        }
-        .hero-video {
-          width: min(86vw, 560px);
-          border-radius: var(--radius-card);
-          box-shadow: var(--shadow-float);
-          border: 1px solid var(--line-soft);
-          background: var(--card);
-        }
-        .hero-cta { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-        .scroll-cue {
-          position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
-          width: 26px; height: 42px; border: 2px solid var(--accent);
-          border-radius: 14px; opacity: .4;
-        }
-        .scroll-cue span {
-          position: absolute; top: 8px; left: 50%; margin-inline-start: -2px;
-          width: 4px; height: 8px; background: var(--accent);
-          border-radius: 2px; animation: cue 1.6s infinite;
-        }
-        @keyframes cue { 0% { opacity: 1; top: 8px; } 100% { opacity: 0; top: 22px; } }
-      `}</style>
+    <>
+      <section id="top" className="hero">
+        <style>{`
+          .hero { background: var(--white); padding-top: var(--header-h); }
+          .hero-inner { max-width: 1309px; margin-inline: auto; padding: clamp(24px, 4vw, 48px) var(--gutter) clamp(32px, 5vw, 64px);
+                        display: grid; gap: 12px; align-items: center; grid-template-columns: minmax(0, 1fr); }
+          @media (min-width: 960px) { .hero-inner { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); min-height: min(640px, calc(100svh - var(--header-h))); } }
+          .hero-name { font-family: var(--ff-title); font-weight: 400; color: var(--ink); font-size: clamp(40px, 6vw, 88px); line-height: 1.05; margin: 0; }
+          .hero-sub { font-family: var(--ff-title); font-size: clamp(20px, 2vw, 28px); color: var(--ink); margin: 16px 0 30px; }
+          .hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; }
+          .hero-art { min-width: 0; }
+          /* בטלפון: הציור (שמתחיל באק"ג) קודם, ואחריו הטקסט */
+          @media (max-width: 959px) { .hero-art { order: -1; max-width: 520px; width: 100%; margin-inline: auto; } }
+          .hero-art svg { display: block; width: 100%; height: auto; overflow: hidden; }
 
-      <div className="wrap">
+        `}</style>
+
         <div className="hero-inner">
-          <div className="reveal">
-            <h1 className="hero-name">{PERSONAL.name}</h1>
-            <p className="hero-role">{PERSONAL.title}</p>
+          <div className="stagger">
+            <h1 className="hero-name" data-fit>{PERSONAL.name}</h1>
+            <p className="hero-sub" data-fit>
+              מוביל <span className="hl">טרנספורמציה דיגיטלית</span> ו<span className="hl">הטמעות AI</span>
+            </p>
+            <div className="hero-ctas">
+              <a href={`mailto:${PERSONAL.email}`} className="lbtn lbtn-strong"><MailIcon />שלח מייל</a>
+              <a href={PERSONAL.whatsapp} target="_blank" rel="noopener noreferrer" className="lbtn"><WhatsAppIcon />וואטסאפ</a>
+              <a href="#videos" className="lbtn"><PlayIcon />צפייה בתכנים</a>
+            </div>
           </div>
 
-          <div className="reveal-pop">
-            <video
-              className="hero-video"
-              src={`${base}hero-video.mp4`}
-              autoPlay
-              loop
-              muted
-              playsInline
-              width={1280}
-              height={720}
-              aria-label="AI can do it - איתמר גרינברג"
-            />
-          </div>
-
-          <div className="hero-cta reveal">
-            <a href={`mailto:${PERSONAL.email}`} className="pill pill-accent">
-              <Mail size={16} />
-              שלח מייל
-            </a>
-            <a
-              href={PERSONAL.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pill pill-green"
-            >
-              <MessageCircle size={16} />
-              וואטסאפ
-            </a>
-            <a href="#videos" className="pill pill-ghost">
-              <Play size={15} />
-              צפייה בתכנים
-            </a>
+          <div className="hero-art">
+            <svg ref={svgRef} viewBox="140 30 540 430" role="img"
+                 aria-label="קו כחול אחד שמשנה צורה: אק״ג, בועת שיחה, נורה, מחשב, גלגל שיניים, רובוט, לייק, ובסוף AI can do it">
+              <path className="hm-patch" fill="#C9E2F8" stroke="none" transform="translate(14 12)" opacity="0" />
+              <g className="hm-acc" fill="none" stroke="#4A90D9" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+              <path className="hm-line" d={SIGN_D} fill="none" stroke="#2F6FB5" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+              <g transform="translate(186 196) scale(.95) skewX(-8)" fill="none" stroke="#2F6FB5" strokeWidth="6.5" strokeLinecap="round" strokeLinejoin="round">
+                {SIGNATURE_PATHS.map(d => <path key={d} className="hm-sig" d={d} />)}
+              </g>
+            </svg>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="scroll-cue" aria-hidden="true">
-        <span />
-      </div>
-    </section>
+    </>
   );
 }

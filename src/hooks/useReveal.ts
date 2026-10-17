@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const SELECTOR = '.reveal, .reveal-group, .reveal-pop';
+const SELECTOR = '.reveal, .stagger, .ldraw';
 
 /** אחרי הזמן הזה, אם שום אלמנט לא נחשף - מבטלים את ההסתרה לגמרי */
 const FAILSAFE_MS = 1500;

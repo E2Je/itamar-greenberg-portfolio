@@ -26,8 +26,6 @@ export const PLAYLISTS = [
     title: 'שיעורים והדרכות',
     description: '',
     href: 'https://www.youtube.com/playlist?list=PLRSatIXe2cKhjOwiDldYvXyWQtfv8MdSl',
-    gradient: 'from-cyan-500 via-sky-500 to-blue-600',
-    accent: '#06b6d4',
     featured: false,
   },
   {
@@ -35,8 +33,6 @@ export const PLAYLISTS = [
     title: 'יצירת תוכן וסרטונים',
     description: '',
     href: 'https://www.youtube.com/playlist?list=PLRSatIXe2cKiG1x8MvlVz-kayU-t4BlHl',
-    gradient: 'from-violet-500 via-fuchsia-500 to-rose-500',
-    accent: '#a855f7',
     featured: false,
   },
   {
@@ -44,8 +40,6 @@ export const PLAYLISTS = [
     title: 'תכנים מקהילת AI can do it',
     description: '',
     href: 'https://www.youtube.com/playlist?list=PLRSatIXe2cKgnWb0eUq_M9wl84BzPoo2M',
-    gradient: 'from-indigo-500 via-violet-600 to-purple-700',
-    accent: '#8b5cf6',
     featured: true,
   },
 ];

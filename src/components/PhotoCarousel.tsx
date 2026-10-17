@@ -1,139 +1,66 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { ChevronRight, ChevronLeft, Camera } from 'lucide-react';
+import { useState } from 'react';
 import { PHOTOS } from '../data/content';
+import LineDraw from './LineDraw';
 
-const AUTO_MS = 5000;
-
+/**
+ * במקום שורת הלוגואים של J Scott ("I have spoken with hundreds of groups"): רצועת תמונות מההרצאות
+ * שנעה לאט לאורך המסך (התמונה הנעה של הדף). הרצועה משוכפלת כדי שהלולאה תהיה רציפה;
+ * בתנועה מופחתת היא עומדת וניתנת לגלילה ביד.
+ */
 export default function PhotoCarousel() {
-  const [current, setCurrent] = useState(0);
-  const [fading, setFading] = useState(false);
-  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const goTo = useCallback((next: number) => {
-    setFading(true);
-    setTimeout(() => {
-      setCurrent((next + PHOTOS.length) % PHOTOS.length);
-      setFading(false);
-    }, 220);
-  }, []);
-
-  const restartAuto = useCallback(() => {
-    if (timer.current) clearInterval(timer.current);
-    timer.current = setInterval(() => setCurrent(c => (c + 1) % PHOTOS.length), AUTO_MS);
-  }, []);
-
-  useEffect(() => {
-    restartAuto();
-    return () => { if (timer.current) clearInterval(timer.current); };
-  }, [restartAuto]);
-
-  const step = (delta: number) => { goTo(current + delta); restartAuto(); };
-
+  const [paused, setPaused] = useState(false);
+  const strip = [...PHOTOS, ...PHOTOS];
   return (
-    <section id="gallery" className="sec">
+    <section id="gallery" className="sec gallery">
       <style>{`
-        .gallery-stage {
-          position: relative;
-          height: clamp(340px, 58vw, 540px);
-          border-radius: var(--radius-card);
-          overflow: hidden;
-          background: var(--dusk);
-          box-shadow: var(--shadow-card);
-          border: 1px solid var(--line-soft);
-        }
-        /* עותק מטושטש של אותה תמונה ממלא את הרקע, כך שהתמונה עצמה
-           נכנסת שלמה (contain) ולא נחתכת - התמונות כאן מעורבות,
-           חלקן לרוחב וחלקן לאורך */
-        .gallery-blur {
-          position: absolute; inset: -8%;
-          width: 116%; height: 116%;
-          object-fit: cover;
-          filter: blur(26px) saturate(1.25) brightness(.62);
-          transform: scale(1.06);
-        }
-        .gallery-photo {
-          position: absolute; inset: 0;
-          width: 100%; height: 100%;
-          object-fit: contain;
-          transition: opacity .22s ease;
-        }
-        .gallery-counter {
-          position: absolute; bottom: 12px; inset-inline-start: 12px;
-          color: #fff; font-size: 12.5px; font-weight: 600;
-          background: rgba(34,56,78,.55);
-          backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-          padding: 3px 10px; border-radius: 999px;
-        }
-        .gallery-arrow {
-          position: absolute; top: 50%; transform: translateY(-50%);
-          width: 42px; height: 42px; border-radius: 50%;
-          border: 1px solid var(--line); background: var(--card);
-          color: var(--accent-deep);
-          display: flex; align-items: center; justify-content: center;
-          box-shadow: var(--shadow-card); z-index: 2;
-          transition: background .2s, color .2s;
-        }
-        .gallery-arrow:hover { background: var(--accent-deep); color: #fff; border-color: transparent; }
-        .gallery-arrow.prev { inset-inline-end: -14px; }
-        .gallery-arrow.next { inset-inline-start: -14px; }
-        @media (max-width: 560px) {
-          .gallery-arrow.prev { inset-inline-end: 8px; }
-          .gallery-arrow.next { inset-inline-start: 8px; }
+        .gallery { background: var(--paper-2); overflow: hidden; }
+        .gal-head { margin-bottom: clamp(28px, 3.4vw, 44px); }
+        .gal-sub { color: var(--ink); font-size: clamp(18px, 1.7vw, 21px); margin: 10px 0 0; }
+        .gal-track { display: flex; gap: 16px; width: max-content; animation: drift 60s linear infinite; }
+        .gal-track:hover, .gal.paused .gal-track { animation-play-state: paused; }
+        .gal-pause { display: block; margin: 14px auto 0; font: inherit; font-family: var(--ff-title); font-size: 15px; color: var(--blue-ink);
+                     background: var(--white); border: 0; border-radius: 999px; padding: 10px 20px; min-height: 44px; cursor: pointer; }
+        @media (prefers-reduced-motion: reduce) { .gal-pause { display: none; } }
+        .gal-track img { height: clamp(220px, 28vw, 380px); width: auto; flex-shrink: 0; object-fit: cover; }
+        @keyframes drift { to { transform: translateX(50%); } }
+        @media (prefers-reduced-motion: reduce) {
+          .gal-viewport { overflow-x: auto; }
+          .gal-track { animation: none; }
         }
       `}</style>
 
-      <div className="wrap">
-        <div className="sec-head center reveal">
-          <span className="eyebrow">
-            <Camera size={13} style={{ verticalAlign: '-2px', marginInlineEnd: 5 }} />
-            גלריה
-          </span>
-          <h2>הרצאות וסדנאות</h2>
-          <p>תיעוד מהרצאות, סדנאות וכנסים בתחום ה-AI</p>
+      <div className="wrap gal-head sec-head reveal">
+        <div className="sec-head-text">
+          <span className="eyebrow">גלריה</span>
+          <h2 data-fit>הרצאות וסדנאות</h2>
+          <p className="gal-sub">תיעוד מהרצאות, סדנאות וכנסים בתחום ה-AI</p>
         </div>
+        <LineDraw viewBox="0 0 170 130" label="מיקרופון על במה" className="sec-draw">
+          <path className="lf" d="M66 12 Q66 4 74 4 H96 Q104 4 104 12 V52 Q104 60 96 60 H74 Q66 60 66 52 Z" />
+          <path className="ld" d="M66 12 Q66 4 74 4 H96 Q104 4 104 12 V52 Q104 60 96 60 H74 Q66 60 66 52 Z M74 20 H96 M74 32 H96" />
+          <path className="ld" d="M54 44 Q54 80 85 80 Q116 80 116 44 M85 80 V104 M60 106 H110" />
+          <path className="ld" d="M16 40 Q4 52 16 64 M30 32 Q12 52 30 72 M154 40 Q166 52 154 64 M140 32 Q158 52 140 72" stroke="#4A90D9" />
+          <path className="ld" d="M20 124 H150" />
+        </LineDraw>
+      </div>
 
-        <div className="reveal" style={{ maxWidth: 860, margin: '0 auto', position: 'relative' }}>
-          <div className="gallery-stage">
-            <img className="gallery-blur" src={PHOTOS[current]} alt="" aria-hidden="true" />
+      <div className={`gal-viewport gal${paused ? ' paused' : ''}`}>
+        <div className="gal-track">
+          {strip.map((src, i) => (
             <img
-              className="gallery-photo"
-              src={PHOTOS[current]}
-              alt={`הרצאה ${current + 1}`}
-              style={{ opacity: fading ? 0 : 1 }}
+              key={`${src}-${i}`}
+              src={src}
+              alt={i < PHOTOS.length ? `הרצאה ${i + 1}` : ''}
+              aria-hidden={i >= PHOTOS.length}
+              loading="lazy"
+              decoding="async"
             />
-            <span className="gallery-counter">
-              {current + 1} / {PHOTOS.length}
-            </span>
-          </div>
-
-          <button className="gallery-arrow prev" onClick={() => step(-1)} aria-label="התמונה הקודמת">
-            <ChevronRight size={18} />
-          </button>
-          <button className="gallery-arrow next" onClick={() => step(1)} aria-label="התמונה הבאה">
-            <ChevronLeft size={18} />
-          </button>
-
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 16 }}>
-            {PHOTOS.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => { goTo(i); restartAuto(); }}
-                aria-label={`מעבר לתמונה ${i + 1}`}
-                aria-current={i === current}
-                style={{
-                  width: i === current ? 24 : 8,
-                  height: 8,
-                  borderRadius: 999,
-                  border: 'none',
-                  padding: 0,
-                  background: i === current ? 'var(--accent)' : 'var(--line)',
-                  transition: 'width .3s ease, background .3s ease',
-                }}
-              />
-            ))}
-          </div>
+          ))}
         </div>
       </div>
+      <button type="button" className="gal-pause" aria-pressed={paused} onClick={() => setPaused(v => !v)}>
+        {paused ? 'להמשיך את התנועה' : 'לעצור את התנועה'}
+      </button>
     </section>
   );
 }

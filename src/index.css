@@ -3,72 +3,56 @@
 @tailwind utilities;
 
 /* ============================================================
-   טוקנים - נגזרים מאתר ההצבעה של כפר עציון, בגרסה בהירה יותר
+   עולם: פוסטר נייר גזור כחול. צורות שטוחות (עיגול, חצי עיגול,
+   ריבוע, רצועה) מנייר תכלת על לבן. בלי גרדיאנטים, בלי זכוכית,
+   צל רק למה שבאמת צף.
    ============================================================ */
 :root {
-  /* משטחים - בסיס קרם בהיר */
-  --cream: #FFFCF8;
-  --surface-alt: #F7F3EC;
-  --surface-cool: #F2F6FA;
-  --card: #FFFFFF;
-  --line: #EDE6DA;
-  --line-soft: #F3EDE3;
+  --white: #FFFFFF;
+  --paper-1: #F2F8FE;
+  --paper-2: #E3F0FC;
+  --paper-3: #C9E2F8;
+  --paper-4: #9CCBF2;
+  --blue: #4A90D9;
+  --blue-deep: #2F6FB5;
+  --blue-ink: #1F5594;
 
-  /* טקסט */
-  --ink: #22384E;
-  --body: #46596C;
-  --muted: #8494A4;
-  --on-dark: #F4F8FC;
-  --on-dark-muted: #A9BCCE;
+  --ink: #1E3A56;
+  --body: #2F4A66;
+  --muted: #4F6782;
+  --on-blue: #FFFFFF;
 
-  /* כהה */
-  --dusk: #22384E;
-  --dusk-2: #2C4763;
+  --hl: #BFE0FB;
 
-  /* מותג */
-  --accent: #3B7DC4;
-  --accent-deep: #2A5F9E;
-  --accent-soft: #E4EFF9;
-  --gold: #E8A33D;
-  --gold-deep: #C9821F;
-  --gold-soft: #FBEBD1;
-  --green: #2F9E6E;
-  --green-deep: #1F7A52;
+  --shadow-float: 0 18px 44px rgba(30, 58, 86, .16);
 
-  /* צללים */
-  --shadow-card: 0 8px 30px rgba(34, 56, 78, .09);
-  --shadow-float: 0 18px 50px rgba(34, 56, 78, .15);
-  --shadow-btn: 0 10px 24px rgba(34, 56, 78, .16);
-
-  /* מבנה */
-  --radius-card: 24px;
-  --radius-sm: 16px;
   --radius-pill: 999px;
-  --maxw: 1120px;
+  --maxw: 1180px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --header-h: 81px;
 
-  /* טיפוגרפיה */
   --ff-title: "Secular One", system-ui, sans-serif;
   --ff-body: "Heebo", system-ui, sans-serif;
 
-  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
-  --header-h: 62px;
+  /* Emil: ease-out חזק לכניסות, ease-in-out לתנועה על המסך */
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);
 }
 
-/* ============================================================
-   בסיס
-   ============================================================ */
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--header-h) + 12px);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 8px);
 }
 
 html, body {
   margin: 0;
   direction: rtl;
   font-family: var(--ff-body);
-  background: var(--cream);
+  background: var(--paper-1);
   color: var(--body);
   font-size: 17px;
   line-height: 1.75;
@@ -78,283 +62,145 @@ html, body {
 
 #root { width: 100%; min-height: 100svh; }
 
-img, video { max-width: 100%; height: auto; display: block; }
-a { color: inherit; text-decoration: none; }
-
 h1, h2, h3 {
   font-family: var(--ff-title);
-  color: var(--ink);
-  line-height: 1.2;
   font-weight: 400;
+  color: var(--ink);
   margin: 0;
+  line-height: 1.12;
+  text-wrap: balance;
 }
-h2 { font-size: clamp(26px, 6vw, 38px); }
-h3 { font-size: clamp(19px, 4.5vw, 23px); }
-p { margin: 0 0 .9em; }
-
+h2 { font-size: clamp(32px, 5.4vw, 60px); }
+h3 { font-size: clamp(20px, 2.4vw, 26px); }
+p { margin: 0 0 1em; text-wrap: pretty; }
+a { color: inherit; text-decoration: none; }
+img, video { display: block; max-width: 100%; }
 button { font: inherit; cursor: pointer; }
+/* מובייל: לחיצה מיידית בלי השהיית double-tap, ובלי בחירת טקסט בלחיצה ארוכה על פקדים */
+button, a, [role="button"] { touch-action: manipulation; }
+button, .btn { user-select: none; -webkit-user-select: none; }
+
+::selection { background: var(--paper-4); color: var(--ink); }
+:focus-visible { outline: 3px solid var(--blue-deep); outline-offset: 3px; border-radius: 4px; }
+html { scrollbar-color: var(--paper-4) var(--paper-1); }
 
 .ltr { unicode-bidi: isolate; direction: ltr; }
-
-.visually-hidden {
-  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
-}
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .skip-link {
-  position: fixed; top: -60px; right: 16px; z-index: 1000;
-  background: var(--accent-deep); color: #fff;
-  padding: 10px 18px; border-radius: 0 0 12px 12px; transition: top .2s;
+  position: absolute; top: -60px; inset-inline-start: 12px; z-index: 300;
+  background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 0 0 10px 10px;
 }
 .skip-link:focus { top: 0; }
 
-:where(a, button, [tabindex]):focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 6px;
-}
+.wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding-inline: var(--gutter); }
 
-/* ============================================================
-   פריסה
-   ============================================================ */
-.wrap {
-  width: 100%;
-  max-width: var(--maxw);
-  margin-inline: auto;
-  padding-inline: clamp(18px, 5vw, 32px);
-}
-.wrap.narrow { max-width: 760px; }
-.center { text-align: center; }
+.sec { padding-block: clamp(56px, 7vw, 104px); position: relative; }
 
-.sec { padding: clamp(56px, 10vw, 100px) 0; position: relative; }
-.sec-alt { background: var(--surface-alt); }
-.sec-cool { background: var(--surface-cool); }
-.sec-dusk {
-  background: linear-gradient(180deg, var(--dusk), var(--dusk-2));
-  color: var(--on-dark);
+/* מרקר תכלת על מילים: קו תחתון עבה ושטוח (בלי גרדיאנט), שנצבע כשהאזור נכנס */
+.hl {
+  text-decoration-line: underline; text-decoration-thickness: .42em; text-underline-offset: -.24em;
+  text-decoration-skip-ink: none; text-decoration-color: transparent;
+  transition: text-decoration-color .5s var(--ease-out);
 }
-.sec-dusk h2, .sec-dusk h3 { color: var(--on-dark); }
+.in .hl, .hl.in { text-decoration-color: var(--hl); }
 
-/* כותרת סקשן */
-.sec-head { margin-bottom: clamp(30px, 6vw, 52px); }
-.sec-head .eyebrow {
-  display: inline-block;
-  font-family: var(--ff-title);
-  font-size: 13px;
-  letter-spacing: .08em;
-  color: var(--accent-deep);
-  background: var(--accent-soft);
-  padding: 5px 14px;
-  border-radius: var(--radius-pill);
-  margin-bottom: 12px;
-}
-.sec-head p { color: var(--muted); max-width: 620px; margin-bottom: 0; }
-.sec-head.center p { margin-inline: auto; }
-
-/* ============================================================
-   כפתורים
-   ============================================================ */
-.pill {
+/* כפתורים: מילוי אחד, עגולים לגמרי */
+.btn {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 11px 24px;
-  border-radius: var(--radius-pill);
-  font-family: var(--ff-title);
-  font-size: 15px;
-  border: 1.5px solid transparent;
-  transition: transform .2s, box-shadow .2s, background .2s,
-              border-color .2s, color .2s, filter .2s;
+  font-family: var(--ff-title); font-size: 17px; line-height: 1;
+  padding: 16px 26px; border-radius: var(--radius-pill); border: 0;
+  transition: transform .16s var(--ease-out), background-color .2s;
 }
-.pill:hover { transform: translateY(-2px); }
-
-.pill-accent {
-  background: var(--accent-deep); color: #fff;
-  box-shadow: var(--shadow-btn);
-}
-.pill-accent:hover { filter: brightness(1.08); }
-
-.pill-gold {
-  background: var(--gold); color: var(--ink);
-  box-shadow: var(--shadow-btn);
-}
-.pill-gold:hover { filter: brightness(1.05); }
-
-.pill-green { background: var(--green); color: #fff; box-shadow: var(--shadow-btn); }
-.pill-green:hover { filter: brightness(1.06); }
-
-.pill-ghost {
-  background: var(--card); color: var(--ink); border-color: var(--line);
-  box-shadow: 0 3px 12px rgba(34, 56, 78, .05);
-}
-.pill-ghost:hover { border-color: var(--accent); color: var(--accent-deep); }
-
-.pill-ghost-dark {
-  background: rgba(255, 255, 255, .07);
-  color: var(--on-dark);
-  border-color: rgba(255, 255, 255, .22);
-}
-.pill-ghost-dark:hover { border-color: var(--gold-soft); color: var(--gold-soft); }
-
-.pill-sm { padding: 7px 16px; font-size: 13.5px; }
-
-/* אייקון בצד שמאל של הטקסט (הפוך לזרימת ה-RTL הרגילה) */
-.pill-icon-left { flex-direction: row-reverse; }
-
-/* ============================================================
-   כרטיסים
-   ============================================================ */
-.card {
-  background: var(--card);
-  border: 1px solid var(--line-soft);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-  transition: transform .28s var(--ease-spring), box-shadow .28s, border-color .28s;
-}
-.card-hover:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-float);
-  border-color: var(--line);
+.btn:active { transform: scale(.97); }
+.btn-ink { background: var(--ink); color: #fff; }
+.btn-blue { background: var(--blue-deep); color: #fff; }
+.btn-paper { background: var(--paper-2); color: var(--ink); }
+.btn-white { background: #fff; color: var(--ink); }
+.btn-sm { padding: 11px 18px; font-size: 15px; }
+@media (hover: hover) and (pointer: fine) {
+  .btn-ink:hover { background: var(--blue-ink); }
+  .btn-blue:hover { background: var(--blue-ink); }
+  .btn-paper:hover { background: var(--paper-3); }
+  .btn-white:hover { background: var(--paper-2); }
 }
 
-/* תג */
-.tag {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 12.5px; font-weight: 600;
-  padding: 4px 11px;
-  border-radius: var(--radius-pill);
-  background: var(--surface-alt);
-  color: var(--body);
-  border: 1px solid var(--line);
-}
-.tag-locked { background: var(--gold-soft); color: var(--gold-deep); border-color: #F0DDBC; }
-.tag-accent { background: var(--accent-soft); color: var(--accent-deep); border-color: #D3E5F5; }
-
-/* קו הדגשה מתחת למילה */
-.emph-underline { position: relative; color: var(--ink); white-space: nowrap; }
-.emph-underline::after {
-  content: ""; position: absolute; inset-inline: -2px; bottom: -2px;
-  height: 8px; border-radius: 6px;
-  background: linear-gradient(90deg, var(--gold), var(--gold-deep));
-  opacity: .45; transform: scaleX(0); transform-origin: right;
-  transition: transform .8s var(--ease-spring) .2s;
-  z-index: -1;
-}
-.reveal.in .emph-underline::after,
-.emph-underline.in::after { transform: scaleX(1); }
-
-/* ============================================================
-   פס התקדמות גלילה
-   ============================================================ */
-.scroll-progress {
-  position: fixed; top: 0; inset-inline: 0; height: 3px; z-index: 200;
-  transform-origin: right; transform: scaleX(0);
-  background: linear-gradient(90deg, var(--gold), var(--accent));
-  transition: transform .1s linear;
-  pointer-events: none;
-}
-
-/* ============================================================
-   אנימציות reveal
-
-   המצב המוסתר חל רק תחת html.reveal-ready, ש-JS מוסיף אחרי שהוא
-   מוודא ש-IntersectionObserver זמין. אם ה-JS לא רץ או שהמנגנון
-   לא יורה - התוכן פשוט גלוי, במקום אתר ריק ב-opacity:0.
-   ============================================================ */
-html.reveal-ready .reveal,
-html.reveal-ready .reveal-group > * {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity .6s ease, transform .6s ease;
-}
-html.reveal-ready .reveal.in,
-html.reveal-ready .reveal-group.in > * { opacity: 1; transform: none; }
-
-html.reveal-ready .reveal-group.in > *:nth-child(1) { transition-delay: 0s; }
-html.reveal-ready .reveal-group.in > *:nth-child(2) { transition-delay: .07s; }
-html.reveal-ready .reveal-group.in > *:nth-child(3) { transition-delay: .14s; }
-html.reveal-ready .reveal-group.in > *:nth-child(4) { transition-delay: .21s; }
-html.reveal-ready .reveal-group.in > *:nth-child(5) { transition-delay: .28s; }
-html.reveal-ready .reveal-group.in > *:nth-child(6) { transition-delay: .35s; }
-html.reveal-ready .reveal-group.in > *:nth-child(7) { transition-delay: .42s; }
-html.reveal-ready .reveal-group.in > *:nth-child(8) { transition-delay: .49s; }
-
-html.reveal-ready .reveal-pop { opacity: 0; transform: scale(.85); }
-html.reveal-ready .reveal-pop.in {
-  opacity: 1; transform: scale(1);
-  transition: opacity .5s ease, transform .7s var(--ease-spring);
-}
-
-/* כניסה מהצד - לתמונה ולטקסט שיושבים זה מול זה */
-html.reveal-ready .reveal-side { opacity: 0; transform: translateX(-28px); }
-html.reveal-ready .reveal-side.in {
+/* חשיפה בגלילה: גלוי כברירת מחדל, מוסתר רק כש-JS מוכן.
+   .stagger - הילדים נכנסים אחד אחרי השני (כותרת, טקסט, תמונה), 70ms ביניהם */
+html.reveal-ready .reveal { opacity: 0; transform: translateY(20px); }
+html.reveal-ready .reveal.in {
   opacity: 1; transform: none;
-  transition: opacity .65s ease, transform .75s var(--ease-spring);
+  transition: opacity .45s var(--ease-out), transform .45s var(--ease-out);
 }
+html.reveal-ready .stagger > * { opacity: 0; transform: translateY(20px); }
+html.reveal-ready .stagger.in > * {
+  opacity: 1; transform: none;
+  transition: opacity .45s var(--ease-out), transform .45s var(--ease-out);
+}
+.stagger.in > :nth-child(2) { transition-delay: 70ms; }
+.stagger.in > :nth-child(3) { transition-delay: 140ms; }
+.stagger.in > :nth-child(4) { transition-delay: 210ms; }
+.stagger.in > :nth-child(5) { transition-delay: 280ms; }
+.stagger.in > :nth-child(n + 6) { transition-delay: 350ms; }
 
-/* קו שנמתח - לקישוט מתחת לכותרות סקשן */
-.rule {
-  height: 3px; width: 54px; border-radius: 999px;
-  background: linear-gradient(90deg, var(--gold), var(--accent));
-  transform-origin: right;
-  margin-top: 12px;
-}
-.sec-head.center .rule { margin-inline: auto; }
-html.reveal-ready .reveal .rule { transform: scaleX(0); }
-html.reveal-ready .reveal.in .rule {
-  transform: scaleX(1);
-  transition: transform .7s var(--ease-spring) .15s;
-}
-
-/* ============================================================
-   מודאל
-   ============================================================ */
-.modal {
-  position: fixed; inset: 0; z-index: 300;
-  display: flex; align-items: center; justify-content: center;
-  padding: clamp(12px, 4vw, 28px);
-}
-.modal[hidden] { display: none; }
-.modal-backdrop {
-  position: absolute; inset: 0;
-  background: rgba(34, 56, 78, .55);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  animation: fadeIn .25s ease;
-}
-.modal-box {
-  position: relative;
-  background: var(--card);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-float);
-  max-width: 760px; width: 100%;
-  max-height: 88vh; overflow-y: auto;
-  animation: modalIn .3s var(--ease-spring);
-}
-@keyframes modalIn {
-  from { opacity: 0; transform: translateY(20px) scale(.97); }
-  to   { opacity: 1; transform: none; }
-}
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-.modal-close {
-  position: absolute; top: 12px; inset-inline-start: 14px; z-index: 2;
-  width: 38px; height: 38px; border-radius: 50%;
-  background: rgba(255, 255, 255, .92);
-  border: 1px solid var(--line);
-  color: var(--ink); font-size: 22px; line-height: 1;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 2px 10px rgba(34, 56, 78, .12);
-  transition: background .2s, transform .2s;
-}
-.modal-close:hover { background: var(--surface-alt); transform: rotate(90deg); }
-
-body.modal-open { overflow: hidden; }
-
-/* ============================================================
-   העדפת תנועה מופחתת
-   ============================================================ */
+/* תנועה מופחתת: בלי תזוזה, אבל עם fade - המעבר עדיין מסביר מה השתנה */
 @media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; scroll-behavior: auto !important; }
-  html .reveal, html .reveal-group > *, html .reveal-pop {
-    opacity: 1 !important; transform: none !important; transition: none !important;
-  }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+  html.reveal-ready .reveal, html.reveal-ready .stagger > * { transform: none; }
+  html.reveal-ready .reveal.in, html.reveal-ready .stagger.in > * { transition: opacity .4s ease; }
+  .hl { text-decoration-color: var(--hl); transition: none; }
+  .art .sh, .screen { transition: opacity .3s ease !important; translate: none !important; }
 }
+
+
+/* ---- סגנון "קו אחד": איורים שמצטיירים כשמגיעים אליהם (CSS בלבד, בלי חישוב בגלילה) ---- */
+.ldraw { display: block; overflow: visible; }
+.ldraw .ld { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.ldraw .lf { fill: var(--paper-3); stroke: none; transform: translate(8px, 7px); }
+html.reveal-ready .ldraw:not(.in) .ld { stroke-dashoffset: 1; }
+html.reveal-ready .ldraw:not(.in) .lf { opacity: 0; transform: none; }
+html.reveal-ready .ldraw .ld { transition: stroke-dashoffset .9s cubic-bezier(.77, 0, .175, 1) calc(var(--i, 0) * 140ms + 150ms); }
+html.reveal-ready .ldraw .lf { transition: opacity .45s ease-out calc(var(--i, 0) * 140ms + 650ms),
+                                           transform .6s var(--ease-out) calc(var(--i, 0) * 140ms + 650ms); }
+/* כותרת + איור קטן לידה; בטלפון האיור מעל הכותרת */
+.sec-head { display: flex; flex-direction: column-reverse; align-items: flex-start; gap: 12px; }
+.sec-head > h2, .sec-head > .sec-head-text { align-self: stretch; min-width: 0; }
+.sec-draw { flex: none; width: clamp(86px, 11vw, 150px); height: auto; }
+@media (min-width: 680px) {
+  .sec-head { flex-direction: row; align-items: center; gap: clamp(12px, 2vw, 28px); }
+  .sec-head > h2, .sec-head > .sec-head-text { flex: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.reveal-ready .ldraw .ld, html.reveal-ready .ldraw .lf { transition: none; }
+  html.reveal-ready .ldraw:not(.in) .ld { stroke-dashoffset: 0; }
+  html.reveal-ready .ldraw:not(.in) .lf { opacity: 1; transform: translate(8px, 7px); }
+}
+/* עמודה צרה (ליד וידאו): האיור תמיד מעל הכותרת, כדי שהכותרת לא תתכווץ */
+@media (min-width: 680px) { .sec-head.sec-head-stack { flex-direction: column-reverse; align-items: flex-start; } }
+
+/* תווית קטנה מעל כותרת, כמו באתר המקורי: פרויקטים / וידאו / גלריה / מאמרים */
+.eyebrow { display: block; font-family: var(--ff-title); font-size: 17px; color: var(--blue-ink); margin-bottom: 4px; }
+.btn svg, .hero-btn svg, .nav-cta svg { flex: none; }
+.nav-cta { gap: 10px; }
+
+/* ---- כפתור בסגנון "קו אחד": מסגרת מצוירת ביד וכתם תכלת מוזז מאחור (כמו בציורים) ---- */
+.lbtn { position: relative; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+        min-height: 52px; padding: 12px 26px; font-family: var(--ff-title); font-size: 18px; line-height: 1.2; color: var(--ink);
+        border-radius: 14px; white-space: nowrap; touch-action: manipulation; user-select: none;
+        transition: transform .18s var(--ease-out); }
+.lbtn::before { content: ''; position: absolute; inset: 0; z-index: -2; border-radius: 14px; background: var(--paper-3);
+                transform: translate(6px, 6px); transition: transform .2s var(--ease-out); }
+.lbtn::after { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 14px; background-color: var(--white);
+               background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 56' preserveAspectRatio='none'%3E%3Cpath d='M14 3 C60 1 140 4 186 2 C197 3 199 14 198 28 C199 42 196 53 184 54 C130 56 70 53 16 55 C4 54 1 42 2 28 C1 14 4 4 18 3' fill='none' stroke='%232F6FB5' stroke-width='2.4' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+               background-size: 100% 100%; }
+.lbtn-strong::before { background: var(--paper-4); }
+.lbtn .line-icon { color: var(--blue-deep); flex: none; }
+.lbtn:active { transform: translate(3px, 3px); }
+.lbtn:active::before { transform: translate(2px, 2px); }
+.lbtn:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+@media (hover: hover) and (pointer: fine) {
+  .lbtn:hover { transform: translate(-2px, -2px); }
+  .lbtn:hover::before { transform: translate(8px, 8px); }
+}
+@media (prefers-reduced-motion: reduce) { .lbtn, .lbtn::before { transition: none; } }

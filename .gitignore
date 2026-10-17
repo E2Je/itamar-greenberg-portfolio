@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.impeccable/
+.web-director/
+.taste-skill/
+assets-src/
+demo-dist/
