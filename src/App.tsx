@@ -13,6 +13,7 @@ import { SIGNATURE_PATHS, SIGNATURE_VIEWBOX } from './data/signature';
 import { useReveal } from './hooks/useReveal';
 import { useFitHeadings } from './hooks/useFitHeadings';
 import { useAnchorScroll } from './hooks/useAnchorScroll';
+import FooterRobot from './components/FooterRobot';
 
 export default function App() {
   useReveal();
@@ -42,9 +43,15 @@ export default function App() {
           .site-footer { background: var(--white); padding: clamp(64px, 8vw, 112px) 0 28px; overflow: hidden; }
           .foot-word { width: min(100%, 760px); height: auto; margin: 0 auto; transform: skewX(-8deg); transform-origin: 50% 100%; }
           .foot-word .ld { transition-duration: .45s !important; }
-          .foot-swoosh { width: min(100%, 900px); height: clamp(18px, 3vw, 40px); margin: 6px auto 0; }
+          .foot-swoosh { width: min(100%, 760px); height: clamp(18px, 3vw, 40px); margin: 6px auto 0; }
           .foot-sub { font-size: clamp(18px, 2vw, 24px); color: var(--blue-ink); margin: 14px 0 clamp(28px, 4vw, 44px); text-align: center; }
-          .foot-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; margin-bottom: clamp(48px, 7vw, 88px); }
+          .foot-contact { position: relative; margin-bottom: clamp(48px, 7vw, 88px); min-height: 110px; }
+          .foot-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; }
+          /* הרובוט: בצד ימין של שורת הקשר, נכנס מקצה המסך (ה-footer חותך מה שמחוץ לו) */
+          .foot-robot { position: absolute; inset-inline-start: 0; bottom: -4px; width: clamp(70px, 12vw, 170px); cursor: pointer; }
+          /* במחשב: צמוד לקצה המסך (מחוץ לרוחב התוכן), כדי שלא ייגע בחתימה ובקו שמתחתיה */
+          @media (min-width: 900px) { .foot-robot { inset-inline-start: calc((100% - 100vw) / 2 + 14px); } }
+          .foot-robot svg { display: block; width: 100%; height: auto; overflow: visible; }
           @media (max-width: 599px) { .foot-links { flex-direction: column; align-items: flex-end; } }
           .foot-copy { color: var(--muted); font-size: 14px; margin: 0; }
         `}</style>
@@ -58,6 +65,8 @@ export default function App() {
           </LineDraw>
           <p className="foot-sub">בינה מלאכותית וחשיבה יצירתית</p>
 
+          <div className="foot-contact">
+          <FooterRobot />
           <div className="foot-links">
             <a href={`mailto:${PERSONAL.email}`} className="lbtn"><span className="ltr">{PERSONAL.email}</span><MailIcon /></a>
             <a href={PERSONAL.whatsapp} target="_blank" rel="noopener noreferrer" className="lbtn"><span className="ltr">{PERSONAL.phone}</span><WhatsAppIcon /></a>
@@ -65,6 +74,7 @@ export default function App() {
               LinkedIn
               <LinkedInIcon />
             </a>
+          </div>
           </div>
 
           <p className="foot-copy">איתמר גרינברג © 2026</p>
