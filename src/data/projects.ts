@@ -73,13 +73,6 @@ export const PROJECTS: Project[] = [
     accent: '#8A9A5B',
   },
   {
-    id: 'itameter',
-    title: 'מנטי',
-    description:
-      'מערכת אינטראקטיבית להצבעות בזמן אמת מהטלפון הנייד, עד 150 משתתפים, עם תוצאות מיידיות וחוויית משתמש פשוטה.',
-    accent: '#7C5CD6',
-  },
-  {
     id: 'mashovbot',
     title: 'מאמן שיחות למנהלים',
     description:
