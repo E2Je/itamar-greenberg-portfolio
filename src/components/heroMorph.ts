@@ -27,7 +27,17 @@ const thumbsPath = (() => {
   return 'M' + p.map(([x, y]) => `${(x - 300) * 1.05} ${(y - 60) * 1.05}`).join(' L') + ' Z';
 })();
 
-export const ECG_D = 'M40 260 L150 260 L160 248 L170 260 L185 260 L195 280 L210 150 L225 320 L238 260 L260 260 L272 244 L284 260 L330 260 L340 248 L350 260 L365 260 L375 280 L390 150 L405 320 L418 260 L440 260 L452 244 L464 260 L760 260';
+/** אק"ג סדיר (סינוס): P, QRS, T, ושוב - פעימות במרווח קבוע עד הקצה, בלי קו ישר בסוף */
+export const ECG_D = (() => {
+  const y = 260;
+  let d = `M40 ${y}`;
+  for (const b of [190, 345, 500, 655]) {
+    d += ` L${b - 46} ${y} L${b - 38} ${y - 12} L${b - 30} ${y}`;                   // P
+    d += ` L${b - 10} ${y} L${b - 4} ${y + 12} L${b + 6} ${y - 110} L${b + 16} ${y + 50} L${b + 24} ${y}`; // QRS
+    d += ` L${b + 40} ${y} Q${b + 56} ${y - 26} ${b + 72} ${y}`;                    // T
+  }
+  return d + ` L760 ${y}`;
+})();
 export const SIGN_D = 'M170 300 C300 286 500 314 650 292';
 
 const SHAPES: Shape[] = [
@@ -109,14 +119,20 @@ export function startHeroMorph(svg: SVGSVGElement): () => void {
   let cur: Pt[] = S.ecg.pts!.map(p => [...p] as Pt);
   const render = () => { const d = toD(cur); line.setAttribute('d', d); patch.setAttribute('d', d + ' Z'); };
   render();
+  const ecgLen = Math.ceil(line.getTotalLength()) + 2;
 
   const tl = gsap.timeline({ repeat: -1, repeatDelay: .2 });
+  // לבדיקות בפיתוח בלבד: גישה לציר הזמן כדי לצלם רגעים קבועים
+  if (import.meta.env.DEV) (window as unknown as { __heroTl?: gsap.core.Timeline }).__heroTl = tl;
+  // כל מעבר יוצא מנקודות קבועות של הצורה הקודמת (לא ממה שבמקרה על המסך), כך שגם אם הדפדפן
+  // דילג על פריימים, למשל טאב ברקע, הקו לא "חוזר" לאק"ג באמצע
+  let last: Pt[] = S.ecg.pts!;
   const morph = (to: Shape, at: number, dur = .65) => {
+    const from = last, target = to.pts!;
     const st = { t: 0 };
-    let from: Pt[] = cur;
-    tl.to(st, { t: 1, duration: dur, ease: 'power2.inOut',
-      onStart() { from = cur.map(p => [...p] as Pt); st.t = 0; },
-      onUpdate() { const t = st.t; cur = from.map((p, i) => [p[0] + (to.pts![i][0] - p[0]) * t, p[1] + (to.pts![i][1] - p[1]) * t] as Pt); render(); } }, at);
+    tl.fromTo(st, { t: 0 }, { t: 1, duration: dur, ease: 'power2.inOut', immediateRender: false,
+      onUpdate() { const t = st.t; cur = from.map((p, i) => [p[0] + (target[i][0] - p[0]) * t, p[1] + (target[i][1] - p[1]) * t] as Pt); render(); } }, at);
+    last = target;
   };
   const draw = (els: Element[], at: number, each = .04, dur = .22) =>
     tl.set(els, { opacity: 1 }, at).to(els, { strokeDashoffset: 0, duration: dur, stagger: each, ease: 'power1.out', overwrite: 'auto' }, at);
@@ -126,7 +142,7 @@ export function startHeroMorph(svg: SVGSVGElement): () => void {
   // 1. האק"ג נכתב משמאל לימין
   tl.call(() => { cur = S.ecg.pts!.map(p => [...p] as Pt); render(); }, undefined, 0)
     .set(patch, { opacity: 0 }, 0)
-    .fromTo(line, { strokeDasharray: 2000, strokeDashoffset: 2000 }, { strokeDashoffset: 0, duration: 1.1, ease: 'none' }, 0)
+    .fromTo(line, { strokeDasharray: ecgLen, strokeDashoffset: ecgLen }, { strokeDashoffset: 0, duration: 1.1, ease: 'none', immediateRender: false }, 0)
     .set(line, { strokeDasharray: 'none' }, 1.15);
 
   // 2. הקו מתכופף מסצנה לסצנה
@@ -148,9 +164,11 @@ export function startHeroMorph(svg: SVGSVGElement): () => void {
   step('gear', .7, at => {
     // גלגל השיניים מתגלגל: מסובבים את הנקודות עצמן, שתי שיניים קדימה
     const st = { a: 0 };
-    tl.to(st, { a: (Math.PI * 2) / 5, duration: .8, ease: 'power2.inOut',
-      onUpdate() { const c = Math.cos(st.a), s = Math.sin(st.a);
-        cur = S.gear.pts!.map(([x, y]) => [400 + (x - 400) * c - (y - 230) * s, 230 + (x - 400) * s + (y - 230) * c] as Pt); render(); } }, at);
+    const spin = (pts: Pt[], a: number) => { const c = Math.cos(a), s = Math.sin(a);
+      return pts.map(([x, y]) => [400 + (x - 400) * c - (y - 230) * s, 230 + (x - 400) * s + (y - 230) * c] as Pt); };
+    tl.fromTo(st, { a: 0 }, { a: (Math.PI * 2) / 5, duration: .8, ease: 'power2.inOut', immediateRender: false,
+      onUpdate() { cur = spin(S.gear.pts!, st.a); render(); } }, at);
+    last = spin(S.gear.pts!, (Math.PI * 2) / 5);
   });
   step('robot', .55);
   step('like', .5);
