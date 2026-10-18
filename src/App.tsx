@@ -40,10 +40,10 @@ export default function App() {
       <footer className="site-footer">
         <style>{`
           .site-footer { background: var(--white); padding: clamp(64px, 8vw, 112px) 0 28px; overflow: hidden; }
-          .foot-word { width: min(100%, 760px); height: auto; margin: 0; transform: skewX(-8deg); transform-origin: 100% 100%; }
+          .foot-word { width: min(100%, 760px); height: auto; margin: 0 auto; transform: skewX(-8deg); transform-origin: 50% 100%; }
           .foot-word .ld { transition-duration: .45s !important; }
-          .foot-swoosh { width: min(100%, 900px); height: clamp(18px, 3vw, 40px); margin: 6px 0 0 auto; }
-          .foot-sub { font-size: clamp(18px, 2vw, 24px); color: var(--blue-ink); margin: 14px 0 clamp(28px, 4vw, 44px); }
+          .foot-swoosh { width: min(100%, 900px); height: clamp(18px, 3vw, 40px); margin: 6px auto 0; }
+          .foot-sub { font-size: clamp(18px, 2vw, 24px); color: var(--blue-ink); margin: 14px 0 clamp(28px, 4vw, 44px); text-align: center; }
           .foot-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; margin-bottom: clamp(48px, 7vw, 88px); }
           @media (max-width: 599px) { .foot-links { flex-direction: column; align-items: flex-end; } }
           .foot-copy { color: var(--muted); font-size: 14px; margin: 0; }
