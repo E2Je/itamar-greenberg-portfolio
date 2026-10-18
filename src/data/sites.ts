@@ -11,8 +11,8 @@ export interface Site {
 
 export const SITES: Site[] = [
   { id: 'numi', title: 'נומי', href: 'https://numi-box.vercel.app/' },
-  { id: 'ein-tova', title: 'עין טובה', href: 'https://ain-tova-hadassah.vercel.app/' },
-  { id: 'ein-yael', title: 'עין יעל', href: 'https://e2je.github.io/einyael123/' },
+  { id: 'ein-tova', title: 'עין טובהדסה', href: 'https://ain-tova-hadassah.vercel.app/' },
+  { id: 'ein-yael', title: 'אתר נלווה לסדנא', href: 'https://e2je.github.io/einyael123/' },
   { id: 'kfar-etzion', title: 'הצבעה כפר עציון', href: 'https://kefar-etzion-vote.vercel.app/' },
   { id: 'summer', title: 'עבודת קיץ', href: 'https://orya-summer.vercel.app/' },
 ];
