@@ -48,9 +48,10 @@ export default function App() {
           .foot-contact { position: relative; margin-bottom: clamp(48px, 7vw, 88px); min-height: 110px; }
           .foot-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; }
           /* הרובוט: בצד ימין של שורת הקשר, נכנס מקצה המסך (ה-footer חותך מה שמחוץ לו) */
-          .foot-robot { position: absolute; inset-inline-start: 0; bottom: -4px; width: clamp(70px, 12vw, 170px); cursor: pointer; }
-          /* במחשב: צמוד לקצה המסך (מחוץ לרוחב התוכן), כדי שלא ייגע בחתימה ובקו שמתחתיה */
-          @media (min-width: 900px) { .foot-robot { inset-inline-start: calc((100% - 100vw) / 2 + 14px); } }
+          .foot-robot { position: absolute; inset-inline-start: 22px; bottom: -4px; width: 76px; cursor: pointer; }
+          /* במחשב: ליד קצה המסך (מחוץ לרוחב התוכן), עם מקום ליד שמנופפת, ולא נוגע בחתימה ובקו שמתחתיה */
+          @media (min-width: 900px) { .foot-robot { inset-inline-start: calc((100% - 100vw) / 2 + 60px); width: clamp(110px, 12vw, 204px); } }
+          @media (min-width: 1300px) { .foot-robot { width: clamp(110px, 14vw, 204px); } }
           .foot-robot svg { display: block; width: 100%; height: auto; overflow: visible; }
           @media (max-width: 599px) { .foot-links { flex-direction: column; align-items: flex-end; } }
           .foot-copy { color: var(--muted); font-size: 14px; margin: 0; }
