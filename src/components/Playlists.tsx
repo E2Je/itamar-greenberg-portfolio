@@ -1,4 +1,4 @@
-import { OpenIcon, YouTubeIcon } from './LineIcons';
+import { YouTubeIcon } from './LineIcons';
 import { PLAYLISTS } from '../data/content';
 import LineDraw from './LineDraw';
 
@@ -31,9 +31,6 @@ export default function Playlists() {
         .pl-body { display: flex; flex-direction: column; gap: 10px; flex: 1; padding-inline: 4px; }
         .pl-kind { font-size: 14px; color: var(--blue-ink); }
         .pl-title { font-size: clamp(19px, 1.7vw, 22px); margin: 0; min-width: 0; }
-        .pl-open { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin-top: auto;
-                   font-family: var(--ff-title); font-size: 16px; color: var(--blue-deep); min-height: 44px; }
-        @media (hover: hover) and (pointer: fine) { .pl-open:hover { color: var(--ink); } }
       `}</style>
 
       <div className="wrap">
@@ -74,7 +71,6 @@ export default function Playlists() {
                 <div className="pl-body">
                   <span className="pl-kind">YouTube Playlist</span>
                   <h3 className="pl-title" data-fit>{p.title}</h3>
-                  <a className="pl-open" href={p.href} target="_blank" rel="noopener noreferrer"><OpenIcon size={18} />פתח בYouTube</a>
                 </div>
               </article>
             </li>

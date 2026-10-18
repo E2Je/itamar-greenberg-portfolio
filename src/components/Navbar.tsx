@@ -45,7 +45,9 @@ export default function Navbar() {
         .nav-links { display: none; gap: 14px; }
         .nav-links a { font-size: 17px; color: var(--ink); }
         @media (hover: hover) and (pointer: fine) { .nav-links a:hover { color: var(--blue-ink); } }
-        .nav-name { font-family: var(--ff-title); font-size: clamp(18px, 2vw, 22px); color: var(--ink); white-space: nowrap; }
+        .nav-name { font-family: var(--ff-title); font-size: clamp(18px, 2vw, 22px); color: var(--ink); white-space: nowrap;
+                    display: flex; flex-direction: column; align-items: center; line-height: 1.15; }
+        .nav-tag { font-size: clamp(11px, 1vw, 13px); letter-spacing: .14em; color: var(--blue-deep); }
         .nav-end { display: flex; justify-content: flex-end; align-items: center; gap: 8px; }
         .nav-cta { display: none; margin-inline-start: 28px; }
         .nav-toggle { position: relative; z-index: 1; display: grid; place-items: center; width: 44px; height: 44px;
@@ -78,7 +80,7 @@ export default function Navbar() {
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
 
-          <a href="#top" className="nav-name">{PERSONAL.name}</a>
+          <a href="#top" className="nav-name">{PERSONAL.name}<span className="nav-tag ltr">AI CAN DO IT</span></a>
 
           <div className="nav-end">
             <a className="lbtn lbtn-strong nav-cta" href={PERSONAL.whatsapp} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={20} />דברו איתי</a>
