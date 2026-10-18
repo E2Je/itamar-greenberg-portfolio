@@ -1,8 +1,5 @@
-import { YouTubeIcon } from './LineIcons';
 import { PLAYLISTS } from '../data/content';
 import LineDraw from './LineDraw';
-
-const YOUTUBE_CHANNEL = 'https://www.youtube.com/@itamargreenberg';
 
 const embedOf = (href: string) =>
   `https://www.youtube-nocookie.com/embed/videoseries?list=${href.split('list=')[1] ?? ''}&rel=0&modestbranding=1`;
@@ -47,7 +44,6 @@ export default function Playlists() {
               <path className="ld" d="M150 22 L162 10 M154 40 L168 38" />
             </LineDraw>
           </div>
-          <a href={YOUTUBE_CHANNEL} target="_blank" rel="noopener noreferrer" className="lbtn"><YouTubeIcon />ערוץ YouTube</a>
         </div>
 
         <ul className="talks-grid stagger">

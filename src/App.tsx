@@ -15,6 +15,7 @@ import { useReveal } from './hooks/useReveal';
 import { useFitHeadings } from './hooks/useFitHeadings';
 import { useAnchorScroll } from './hooks/useAnchorScroll';
 import FooterRobot from './components/FooterRobot';
+import A11yMenu from './components/A11yMenu';
 
 export default function App() {
   useReveal();
@@ -80,9 +81,10 @@ export default function App() {
           </div>
           </div>
 
-          <p className="foot-copy">איתמר גרינברג © 2026</p>
+          <p className="foot-copy">איתמר גרינברג © 2026 · <button type="button" className="foot-a11y" data-a11y-statement>הצהרת נגישות</button></p>
         </div>
       </footer>
+      <A11yMenu />
     </>
   );
 }

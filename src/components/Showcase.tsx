@@ -55,7 +55,7 @@ export default function Showcase() {
           </LineDraw>
         </div>
 
-        <ul className="blocks stagger">
+        <ul className="blocks stagger" tabIndex={0} aria-label="רשימת הפרויקטים">
           {PROJECTS.map((p, i) => (
             <li key={p.id} id={`tool-${p.id}`}>
               <article className="block">
