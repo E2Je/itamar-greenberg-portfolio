@@ -4,6 +4,7 @@ import { LinkedInIcon, MailIcon, WhatsAppIcon } from './components/LineIcons';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Showcase from './components/Showcase';
+import Sites from './components/Sites';
 import Playlists from './components/Playlists';
 import Resources from './components/Resources';
 import PhotoCarousel from './components/PhotoCarousel';
@@ -32,6 +33,7 @@ export default function App() {
         <Hero />
         <About />
         <Showcase />
+        <Sites />
         <Playlists />
         <Resources />
         <PhotoCarousel />
