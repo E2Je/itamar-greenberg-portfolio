@@ -24,7 +24,11 @@ export default function Sites() {
                        gap: clamp(20px, 2.4vw, 32px); grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
         @media (min-width: 1100px) { .site-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-        .site-card { display: flex; flex-direction: column; gap: 16px; height: 100%; }
+        .site-card { position: relative; display: flex; flex-direction: column; gap: 16px; height: 100%; padding-top: clamp(46px, 4.4vw, 58px); }
+        /* איור קו קטן לכל אתר, יוצא מהפינה של חלון הדפדפן */
+        .site-doodle { position: absolute; top: 0; inset-inline-end: 4px; z-index: 2; width: clamp(62px, 5.6vw, 76px); height: auto; pointer-events: none;
+                       transition: transform .4s var(--ease-out); }
+        @media (hover: hover) and (pointer: fine) { .site-card:hover .site-doodle { transform: rotate(-8deg) translateY(-4px); } }
         .site-shot { position: relative; display: block; aspect-ratio: 320 / 230; }
         .site-frame { position: absolute; inset: 0; width: 100%; height: 100%; }
         .site-shot img { position: absolute; top: 14%; left: 2.4%; right: 2.4%; bottom: 3.6%; width: 95.2%; height: 82.4%;
@@ -58,6 +62,7 @@ export default function Sites() {
           {SITES.map((s, i) => (
             <li key={s.id}>
               <article className="site-card">
+                <SiteDoodle id={s.id} />
                 <a href={s.href} target="_blank" rel="noopener noreferrer" className="site-shot" tabIndex={-1} aria-hidden="true">
                   <LineDraw viewBox="0 0 320 230" className="site-frame" stretch>
                     <path className="lf" d="M14 6 H306 Q314 6 314 14 V216 Q314 224 306 224 H14 Q6 224 6 216 V14 Q6 6 14 6 Z" />
@@ -88,5 +93,58 @@ export default function Sites() {
         </ul>
       </div>
     </section>
+  );
+}
+
+/** איור לכל אתר, לפי מה שהוא: לוטוס לנומי, לב לעין טובה, נורה לעין יעל, טלפון עם וי להצבעה, שמש לעבודת הקיץ */
+function SiteDoodle({ id }: { id: string }) {
+  if (id === 'numi') {
+    return (
+      <LineDraw viewBox="0 0 100 100" className="site-doodle">
+        <path className="lf" d="M50 78 C30 74 16 60 16 46 C30 48 40 54 50 30 C60 54 70 48 84 46 C84 60 70 74 50 78 Z" />
+        <path className="ld" d="M50 78 C38 62 40 42 50 28 C60 42 62 62 50 78 Z" />
+        <path className="ld" d="M50 78 C30 74 18 60 16 46 C30 48 44 58 50 78 C56 58 70 48 84 46 C82 60 70 74 50 78" />
+        <path className="ld" d="M24 88 Q50 94 76 88" />
+        <path className="ld" d="M68 12 H78 L68 22 H78 M84 2 H90 L84 8 H90" stroke="#4A90D9" strokeWidth={3.5} />
+      </LineDraw>
+    );
+  }
+  if (id === 'ein-tova') {
+    return (
+      <LineDraw viewBox="0 0 100 100" className="site-doodle">
+        <path className="lf" d="M50 86 C22 66 12 50 18 36 C24 22 42 20 50 36 C58 20 76 22 82 36 C88 50 78 66 50 86 Z" />
+        <path className="ld" d="M50 86 C22 66 12 50 18 36 C24 22 42 20 50 36 C58 20 76 22 82 36 C88 50 78 66 50 86 Z" />
+        <path className="ld" d="M14 16 C8 12 7 7 10 5 C12 3 14 5 14 7 C14 5 17 3 19 5 C22 7 20 12 14 16 Z" stroke="#4A90D9" strokeWidth={3.5} />
+        <path className="ld" d="M84 6 L86 14 M94 12 L88 18 M96 26 L90 25" stroke="#4A90D9" strokeWidth={3.5} />
+      </LineDraw>
+    );
+  }
+  if (id === 'ein-yael') {
+    return (
+      <LineDraw viewBox="0 0 100 100" className="site-doodle">
+        <path className="lf" d="M38 68 C26 60 22 48 24 38 C27 24 38 16 50 16 C62 16 73 24 76 38 C78 48 74 60 62 68 Z" />
+        <path className="ld" d="M38 68 C26 60 22 48 24 38 C27 24 38 16 50 16 C62 16 73 24 76 38 C78 48 74 60 62 68 V76 H38 Z M41 84 H59 M45 92 H55" />
+        <path className="ld" d="M34 44 H42 L46 34 L52 56 L56 44 H66" stroke="#4A90D9" strokeWidth={3.5} />
+        <path className="ld" d="M50 2 V8 M14 12 L19 17 M86 12 L81 17" stroke="#4A90D9" strokeWidth={3.5} />
+      </LineDraw>
+    );
+  }
+  if (id === 'kfar-etzion') {
+    return (
+      <LineDraw viewBox="0 0 100 100" className="site-doodle">
+        <path className="lf" d="M36 10 H64 Q70 10 70 16 V84 Q70 90 64 90 H36 Q30 90 30 84 V16 Q30 10 36 10 Z" />
+        <path className="ld" d="M36 10 H64 Q70 10 70 16 V84 Q70 90 64 90 H36 Q30 90 30 84 V16 Q30 10 36 10 Z M45 80 H55" />
+        <path className="ld" d="M39 48 L47 57 L62 36" stroke="#4A90D9" strokeWidth={5} />
+        <path className="ld" d="M86 18 L88 12 L90 18 L96 20 L90 22 L88 28 L86 22 L80 20 Z" stroke="#4A90D9" strokeWidth={3} />
+      </LineDraw>
+    );
+  }
+  return (
+    <LineDraw viewBox="0 0 100 100" className="site-doodle">
+      <path className="lf" d="M50 32 a18 18 0 1 0 .1 0 Z" />
+      <path className="ld" d="M50 32 a18 18 0 1 0 .1 0" />
+      <path className="ld" d="M43 54 Q50 60 57 54" stroke="#4A90D9" strokeWidth={3.5} />
+      <path className="ld" d="M50 6 V18 M50 82 V94 M6 50 H18 M82 50 H94 M19 19 L27 27 M73 73 L81 81 M81 19 L73 27 M27 73 L19 81" />
+    </LineDraw>
   );
 }
