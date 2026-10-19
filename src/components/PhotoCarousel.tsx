@@ -1,32 +1,106 @@
-import { useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { PHOTOS } from '../data/content';
 import LineDraw from './LineDraw';
 
+/** כמה שניות לוקח לרצועה לעבור את כל התמונות פעם אחת */
+const LOOP_SECONDS = 60;
+
 /**
- * במקום שורת הלוגואים של J Scott ("I have spoken with hundreds of groups"): רצועת תמונות מההרצאות
- * שנעה לאט לאורך המסך (התמונה הנעה של הדף). הרצועה משוכפלת כדי שהלולאה תהיה רציפה;
- * בתנועה מופחתת היא עומדת וניתנת לגלילה ביד.
+ * רצועת תמונות מההרצאות שנעה לאט לבד, ואפשר לגרור אותה ביד (אצבע או עכבר) או עם החצים במקלדת.
+ * הרצועה משוכפלת כדי שהלולאה תהיה רציפה. התנועה האוטומטית נעצרת כשמחזיקים או כשהעכבר עליה,
+ * בתנועה מופחתת, וכשבתפריט הנגישות בוחרים "עצירת אנימציות". הגרירה עובדת תמיד.
  */
 export default function PhotoCarousel() {
-  const [paused, setPaused] = useState(false);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const strip = [...PHOTOS, ...PHOTOS];
+
+  useEffect(() => {
+    const viewport = viewportRef.current, track = trackRef.current;
+    if (!viewport || !track) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let x = 0, velocity = 0, dragging = false, hovering = false, lastX = 0, lastT = 0, raf = 0, prev = performance.now();
+    const half = () => track.scrollWidth / 2;
+    const wrapX = () => { const h = half(); if (h > 0) x = ((x % h) + h) % h; };
+    const render = () => { track.style.transform = `translate3d(${x}px, 0, 0)`; };
+    const stopped = () => reduce || document.documentElement.classList.contains('a11y-motion');
+
+    const tick = (now: number) => {
+      const dt = Math.min(now - prev, 64) / 1000;
+      prev = now;
+      if (!dragging) {
+        if (Math.abs(velocity) > 5) {            // תאוצה אחרי שעוזבים
+          x += velocity * dt;
+          velocity *= Math.pow(.05, dt);
+        } else if (!hovering && !stopped()) {    // תנועה אוטומטית איטית
+          velocity = 0;
+          x += (half() / LOOP_SECONDS) * dt;
+        }
+        wrapX();
+        render();
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    const down = (e: PointerEvent) => {
+      dragging = true; velocity = 0; lastX = e.clientX; lastT = e.timeStamp;
+      viewport.setPointerCapture(e.pointerId);
+      viewport.classList.add('dragging');
+    };
+    const move = (e: PointerEvent) => {
+      if (!dragging) return;
+      const dx = e.clientX - lastX, dt = Math.max(e.timeStamp - lastT, 1);
+      x += dx;
+      velocity = (dx / dt) * 1000;
+      lastX = e.clientX; lastT = e.timeStamp;
+      wrapX(); render();
+    };
+    const up = (e: PointerEvent) => {
+      if (!dragging) return;
+      dragging = false;
+      if (e.timeStamp - lastT > 80) velocity = 0;  // החזיק בלי לזוז - בלי תאוצה
+      viewport.classList.remove('dragging');
+    };
+    const key = (e: KeyboardEvent) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      velocity = (e.key === 'ArrowRight' ? 1 : -1) * 1400;
+    };
+    const enter = (e: PointerEvent) => { if (e.pointerType === 'mouse') hovering = true; };
+    const leave = () => { hovering = false; };
+
+    viewport.addEventListener('pointerdown', down);
+    viewport.addEventListener('pointermove', move);
+    viewport.addEventListener('pointerup', up);
+    viewport.addEventListener('pointercancel', up);
+    viewport.addEventListener('pointerenter', enter);
+    viewport.addEventListener('pointerleave', leave);
+    viewport.addEventListener('keydown', key);
+    return () => {
+      cancelAnimationFrame(raf);
+      viewport.removeEventListener('pointerdown', down);
+      viewport.removeEventListener('pointermove', move);
+      viewport.removeEventListener('pointerup', up);
+      viewport.removeEventListener('pointercancel', up);
+      viewport.removeEventListener('pointerenter', enter);
+      viewport.removeEventListener('pointerleave', leave);
+      viewport.removeEventListener('keydown', key);
+    };
+  }, []);
+
   return (
     <section id="gallery" className="sec gallery">
       <style>{`
         .gallery { background: var(--paper-2); overflow: hidden; }
         .gal-head { margin-bottom: clamp(28px, 3.4vw, 44px); }
         .gal-sub { color: var(--ink); font-size: clamp(18px, 1.7vw, 21px); margin: 10px 0 0; }
-        .gal-track { display: flex; gap: 16px; width: max-content; animation: drift 60s linear infinite; }
-        .gal-track:hover, .gal.paused .gal-track { animation-play-state: paused; }
-        .gal-pause { display: block; margin: 14px auto 0; font: inherit; font-family: var(--ff-title); font-size: 15px; color: var(--blue-ink);
-                     background: var(--white); border: 0; border-radius: 999px; padding: 10px 20px; min-height: 44px; cursor: pointer; }
-        @media (prefers-reduced-motion: reduce) { .gal-pause { display: none; } }
-        .gal-track img { height: clamp(220px, 28vw, 380px); width: auto; flex-shrink: 0; object-fit: cover; }
-        @keyframes drift { to { transform: translateX(50%); } }
-        @media (prefers-reduced-motion: reduce) {
-          .gal-viewport { overflow-x: auto; }
-          .gal-track { animation: none; }
-        }
+        /* גרירה אופקית ביד; גלילה אנכית של הדף ממשיכה לעבוד */
+        .gal-viewport { touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none; }
+        .gal-viewport.dragging { cursor: grabbing; }
+        .gal-viewport:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+        .gal-track { display: flex; gap: 16px; width: max-content; will-change: transform; }
+        .gal-track img { height: clamp(220px, 28vw, 380px); width: auto; flex-shrink: 0; object-fit: cover; pointer-events: none; }
       `}</style>
 
       <div className="wrap gal-head sec-head reveal">
@@ -44,8 +118,9 @@ export default function PhotoCarousel() {
         </LineDraw>
       </div>
 
-      <div className={`gal-viewport gal${paused ? ' paused' : ''}`}>
-        <div className="gal-track">
+      <div className="gal-viewport" ref={viewportRef} tabIndex={0} role="region"
+           aria-label="תמונות מהרצאות וסדנאות. אפשר לגרור, או להזיז עם החצים במקלדת">
+        <div className="gal-track" ref={trackRef}>
           {strip.map((src, i) => (
             <img
               key={`${src}-${i}`}
@@ -54,13 +129,11 @@ export default function PhotoCarousel() {
               aria-hidden={i >= PHOTOS.length}
               loading="lazy"
               decoding="async"
+              draggable={false}
             />
           ))}
         </div>
       </div>
-      <button type="button" className="gal-pause" aria-pressed={paused} onClick={() => setPaused(v => !v)}>
-        {paused ? 'להמשיך את התנועה' : 'לעצור את התנועה'}
-      </button>
     </section>
   );
 }

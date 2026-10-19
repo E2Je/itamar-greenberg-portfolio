@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { PERSONAL } from '../data/content';
-import { MailIcon, PlayIcon, WhatsAppIcon } from './LineIcons';
+import { MailIcon, WhatsAppIcon } from './LineIcons';
 import { SIGN_D, SIGNATURE_PATHS, startHeroMorph } from './heroMorph';
 
 /**
@@ -44,7 +44,6 @@ export default function Hero() {
             <div className="hero-ctas">
               <a href={`mailto:${PERSONAL.email}`} className="lbtn lbtn-strong"><MailIcon />שלח מייל</a>
               <a href={PERSONAL.whatsapp} target="_blank" rel="noopener noreferrer" className="lbtn"><WhatsAppIcon />וואטסאפ</a>
-              <a href="#videos" className="lbtn"><PlayIcon />צפייה בתכנים</a>
             </div>
           </div>
 
