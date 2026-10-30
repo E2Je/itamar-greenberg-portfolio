@@ -96,7 +96,7 @@ export default function Sites() {
   );
 }
 
-/** איור לכל אתר, לפי מה שהוא: לוטוס לנומי, לב לעין טובה, נורה לעין יעל, טלפון עם וי להצבעה, שמש לעבודת הקיץ */
+/** איור לכל אתר, לפי מה שהוא: לוטוס לנומי, לב לעין טובה, נורה לעין יעל, טלפון עם וי להצבעה, עגלה לקניות */
 function SiteDoodle({ id }: { id: string }) {
   if (id === 'numi') {
     return (
@@ -141,10 +141,10 @@ function SiteDoodle({ id }: { id: string }) {
   }
   return (
     <LineDraw viewBox="0 0 100 100" className="site-doodle">
-      <path className="lf" d="M50 32 a18 18 0 1 0 .1 0 Z" />
-      <path className="ld" d="M50 32 a18 18 0 1 0 .1 0" />
-      <path className="ld" d="M43 54 Q50 60 57 54" stroke="#4A90D9" strokeWidth={3.5} />
-      <path className="ld" d="M50 6 V18 M50 82 V94 M6 50 H18 M82 50 H94 M19 19 L27 27 M73 73 L81 81 M81 19 L73 27 M27 73 L19 81" />
+      <path className="lf" d="M22 34 H88 L80 64 H30 Z" />
+      <path className="ld" d="M6 20 H16 L30 64 H80 L88 34 H20 M30 64 L26 74 H82" />
+      <path className="ld" d="M34 84 a5 5 0 1 0 .1 0 M74 84 a5 5 0 1 0 .1 0" />
+      <path className="ld" d="M44 34 C42 22 50 14 58 18 C64 21 62 30 56 34 M66 34 L70 18" stroke="#4A90D9" strokeWidth={3.5} />
     </LineDraw>
   );
 }
